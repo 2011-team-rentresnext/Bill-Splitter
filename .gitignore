@@ -11,3 +11,11 @@ web-build/
 
 # macOS
 .DS_Store
+
+
+# secrets
+secrets.js
+
+
+
+.vscode
