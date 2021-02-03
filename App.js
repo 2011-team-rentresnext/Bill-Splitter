@@ -1,38 +1,40 @@
-import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { API_KEY } from './secrets.js';
+import * as ImagePicker from "expo-image-picker";
+import React, { useState } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { TAGGUN_API_KEY } from "./secrets.js";
 
-const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
+export let fetchedReceiptData = "";
 
-async function callGoogleVisionAsync(image) {
+const TAGGUN_URL = "https://api.taggun.io/api/receipt/v1/verbose/encoded";
+
+async function callTaggunAsync(image) {
   const body = {
-    requests: [
-      {
-        image: {
-          content: image,
-        },
-        features: [
-          {
-            type: 'DOCUMENT_TEXT_DETECTION',
-          },
-        ],
-      },
-    ],
+    image: image,
+    filename: "img.jpg",
+    contentType: "image/jpeg",
+    incognito: true,
+    language: "en",
+    extractTime: false,
   };
 
-  const response = await fetch(API_URL, {
-    method: 'POST',
+  const response = await fetch(TAGGUN_URL, {
+    method: "POST",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      accept: "application/json",
+      apikey: TAGGUN_API_KEY,
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
-  const result = await response.json();
-  console.log('callGoogleVisionAsync -> result', result);
 
-  return result.responses[0].textAnnotations[0].description;
+  const result = await response.json();
+
+  if (result.error) {
+    throw new Error(result.message);
+  } else {
+    fetchedReceiptData = result;
+    return "$" + result.totalAmount.data;
+  }
 }
 
 export default function App() {
@@ -44,7 +46,7 @@ export default function App() {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
+      alert("Permission to access camera roll is required!");
       return;
     } else {
       setPermissions(true);
@@ -58,9 +60,9 @@ export default function App() {
 
     if (!cancelled) {
       setImage(uri);
-      setStatus('Loading...');
+      setStatus("Loading...");
       try {
-        const result = await callGoogleVisionAsync(base64);
+        const result = await callTaggunAsync(base64);
         setStatus(result);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
@@ -89,9 +91,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 300,
