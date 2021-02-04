@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { API_KEY } from '../../secrets';
+import { API_KEY } from '../secrets';
 
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
 

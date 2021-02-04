@@ -1,6 +1,5 @@
 import axios from 'axios';
-import history from '../history';
-const apiUrl = 'https://obj3d3mu6f.execute-api.us-east-1.amazonaws.com/api/';
+const apiUrl = 'https://2mh029oq01.execute-api.us-east-1.amazonaws.com/api/';
 /**
  * ACTION TYPES
  */

@@ -11,7 +11,7 @@ import {
   History,
   Scanner,
   FriendsList,
-} from './client/views';
+} from './views';
 import { Provider } from 'react-redux';
 import store from './store';
 

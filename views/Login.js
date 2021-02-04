@@ -8,13 +8,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import pie from '../../assets/pie.jpg';
+import pie from '../assets/pie.jpg';
 import styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { auth } from '../store';
 import { connect } from 'react-redux';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,11 +25,10 @@ export default class Login extends Component {
 
   handlePress = () => {
     this.props.login(this.state.email, this.state.password);
-    navigation.navigate('UserHome');
+    this.props.navigation.navigate('UserHome');
   };
 
   render() {
-    const { navigation } = this.props;
     return (
       <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -43,7 +42,7 @@ export default class Login extends Component {
               {'\n'}
             </Text>
 
-            <Text style={styles.usernamelabel}>UserName</Text>
+            <Text style={styles.usernamelabel}>email</Text>
             <TextInput
               style={styles.credentialinput}
               onChangeText={(email) => this.setState({ email })}
