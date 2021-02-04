@@ -16,6 +16,7 @@ export default class Login extends Component {
     }
     
     render(){
+        const {navigation} = this.props
         return (
         <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
@@ -61,7 +62,7 @@ export default class Login extends Component {
 
             <TouchableOpacity
                 style={styles.loginbutton}
-                onPress={()=> alert(`Username is ${this.state.userName} and pass is ${this.state.password}` )}
+                onPress={() => navigation.navigate('UserHome')}
                 >
 
                     <Text style={styles.logintext}>Login</Text>

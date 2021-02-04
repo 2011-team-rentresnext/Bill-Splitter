@@ -42,7 +42,10 @@ export default class Home extends Component {
             </TouchableOpacity>
                 
             <TouchableOpacity
-                style={styles.loginbutton}>
+                style={styles.loginbutton}
+
+                onPress={() => navigation.navigate('Signup')}>
+    
                     <Text style={styles.logintext}>Sign Up</Text>
             </TouchableOpacity>
         </View>

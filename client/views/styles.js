@@ -64,7 +64,50 @@ export default StyleSheet.create({
         fontSize: 25   
     },
     
+    //sign up
+    profilebg: {
+        width: 400,
+        height: 700,
+        resizeMode:'stretch'
+      },
   
+      //UserHome component
+    navbar: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%'
+    },
+
+    navtextbig: {
+        color: 'white',
+        fontSize: 35,
+        fontFamily: "Cochin"
+    },
+
+    navtextsmall: {
+        color: 'white',
+        fontSize: 30,
+        fontFamily: "Cochin"
+    },
+
+    profileimage: {
+        width: 275,
+        height: 275,
+        borderRadius: 200,
+    },
+
+    profilenametext: {
+        color: '#E83535',
+        fontSize: 35,
+        fontFamily: "Cochin"
+    },
+
+    profileemailtext: {
+        color: '#E83535',
+        fontSize: 28,
+        fontFamily: "Cochin"
+    },
 });
   
 
