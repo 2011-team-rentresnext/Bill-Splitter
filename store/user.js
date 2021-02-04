@@ -1,9 +1,9 @@
-import axios from 'axios';
-const apiUrl = 'https://2mh029oq01.execute-api.us-east-1.amazonaws.com/api/';
+import axios from "axios";
+const apiUrl = "https://obj3d3mu6f.execute-api.us-east-1.amazonaws.com/api/";
 /**
  * ACTION TYPES
  */
-const GET_USER = 'GET_USER';
+const GET_USER = "GET_USER";
 
 /**
  * INITIAL STATE
@@ -20,7 +20,7 @@ const getUser = (user) => ({ type: GET_USER, user });
  */
 export const me = () => async (dispatch) => {
   try {
-    const res = await axios.get(apiUrl + 'auth/login');
+    const res = await axios.get(apiUrl + "auth/login");
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -30,7 +30,7 @@ export const me = () => async (dispatch) => {
 export const auth = (email, password) => async (dispatch) => {
   let res;
   try {
-    res = await axios.post(apiUrl + 'auth/login', { email, password });
+    res = await axios.post(apiUrl + "auth/login", { email, password });
     dispatch(getUser(res.data));
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
@@ -46,9 +46,9 @@ export const auth = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.post('/auth/logout');
+    await axios.post("/auth/logout");
     dispatch(removeUser());
-    history.push('/login');
+    history.push("/login");
   } catch (err) {
     console.error(err);
   }
