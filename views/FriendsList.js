@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Text,
   TextInput,
@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import pie from '../assets/pie.jpg';
-import styles from './styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Card } from 'react-native-elements';
-import pic from '../assets/HandsomeSquidward.png';
+} from "react-native";
+import pie from "../assets/pie.jpg";
+import styles from "./styles";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
+import { ScrollView } from "react-native-gesture-handler";
+import { Card } from "react-native-elements";
+import pic from "../assets/HandsomeSquidward.png";
 
 export default class Login extends Component {
   constructor() {
@@ -27,30 +27,30 @@ export default class Login extends Component {
     const friends = [
       {
         id: 1,
-        firstName: 'Ayuna',
-        lastName: 'Tsy',
-        email: 'ayuna@email.com',
+        firstName: "Ayuna",
+        lastName: "Tsy",
+        email: "ayuna@email.com",
         photo: pic,
       },
       {
         id: 2,
-        firstName: 'Oy',
-        lastName: 'Sa',
-        email: 'osa@email.com',
+        firstName: "Oy",
+        lastName: "Sa",
+        email: "osa@email.com",
         photo: pic,
       },
       {
         id: 3,
-        firstName: 'Oy',
-        lastName: 'Sa',
-        email: 'osa@email.com',
+        firstName: "Oy",
+        lastName: "Sa",
+        email: "osa@email.com",
         photo: pic,
       },
       {
         id: 4,
-        firstName: 'Oy',
-        lastName: 'Sa',
-        email: 'osa@email.com',
+        firstName: "Oy",
+        lastName: "Sa",
+        email: "osa@email.com",
         photo: pic,
       },
     ];
@@ -62,8 +62,8 @@ export default class Login extends Component {
             <Text style={styles.texttitle}>Slicing Friends</Text>
 
             <Text>
-              {'\n'}
-              {'\n'}
+              {"\n"}
+              {"\n"}
             </Text>
 
             <ScrollView>
@@ -85,7 +85,7 @@ export default class Login extends Component {
                       <View style={styles.friendsCard}>
                         <Text>
                           Name: {name}
-                          {'\n'}
+                          {"\n"}
                         </Text>
                         <Text>{friend.email}</Text>
                       </View>

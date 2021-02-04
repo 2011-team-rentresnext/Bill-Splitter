@@ -1,8 +1,8 @@
-import * as React from 'react';
-import 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import * as React from "react";
+import "react-native-gesture-handler";
+import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import {
   Login,
   Signup,
@@ -11,9 +11,10 @@ import {
   History,
   Scanner,
   FriendsList,
-} from './views';
-import { Provider } from 'react-redux';
-import store from './store';
+  UsersList,
+} from "./views";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const Stack = createStackNavigator();
 
@@ -34,7 +35,7 @@ export default function App() {
 
           <Stack.Screen name="Scanner" component={Scanner} />
 
-          <Stack.Screen name="FriendsList" component={FriendsList} />
+          <Stack.Screen name="FriendsList" component={UsersList} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
@@ -44,9 +45,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 300,
