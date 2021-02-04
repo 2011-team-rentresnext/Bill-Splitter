@@ -108,6 +108,24 @@ export default StyleSheet.create({
         fontSize: 28,
         fontFamily: "Cochin"
     },
+
+    //FriendsList
+    friendsCard: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'baseline'
+    },
+    
+    friendimg: {
+        width: '50%',
+        height: 100
+    },
+
+    friendsCardCol: {
+        flex: 1,
+        flexDirection: 'row',
+    },
 });
   
 

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import { Text, TextInput, View, Platform, StatusBar, Image, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard} from 'react-native'
-import { Button, normalize } from 'react-native-elements'
+import { Text, TextInput, View, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import pie from '../../assets/pie.jpg'
 import styles from './styles'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'

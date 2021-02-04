@@ -1,6 +1,6 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
-import { View, Text, LogBox, Image, Button, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import { 
@@ -9,7 +9,8 @@ import {
   Home,
   UserHome,
   History,
-  Scanner
+  Scanner,
+  FriendsList
  } from './client/views'
 
 
@@ -50,6 +51,11 @@ export default function App(){
         <Stack.Screen
                name='Scanner' 
                component={Scanner} 
+        />
+
+        <Stack.Screen
+               name='FriendsList' 
+               component={FriendsList} 
         />
 
       </Stack.Navigator>

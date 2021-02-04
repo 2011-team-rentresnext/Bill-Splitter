@@ -34,9 +34,7 @@ export default class UserHome extends Component {
                 style={styles.container}
             >
             <View style={styles.navbar}>
-                <Text 
-                onPress={() => navigation.navigate('Home')}
-                style={styles.navtextsmall}>Settings {'\n'} </Text>
+                <Text style={styles.navtextsmall}>Settings {'\n'} </Text>
                 <Text style={styles.navtextbig}>Home </Text>
                 <Text style={styles.navtextsmall}>Logout</Text>
             </View>
@@ -57,7 +55,8 @@ export default class UserHome extends Component {
                 
 
                 <TouchableOpacity
-                    style={styles.loginbutton}   
+                    style={styles.loginbutton}
+                    onPress={() => navigation.navigate('Scanner')}   
                 >
 
                         <Text style={styles.logintext}>Start Slicing!</Text>
@@ -66,7 +65,8 @@ export default class UserHome extends Component {
 
 
                 <TouchableOpacity
-                    style={styles.loginbutton}   
+                    onPress={() => navigation.navigate('FriendsList')}  
+                    style={styles.loginbutton}  
                 >
 
                         <Text style={styles.logintext}>Slicing Friends</Text>
@@ -82,9 +82,6 @@ export default class UserHome extends Component {
                         >Slicing History</Text>
 
                 </TouchableOpacity>
-
-
-
 
                 </ImageBackground>
                 </View>
