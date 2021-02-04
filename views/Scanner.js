@@ -1,50 +1,20 @@
-import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { API_KEY } from '../secrets';
-
-const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
-
-async function callGoogleVisionAsync(image) {
-  const body = {
-    requests: [
-      {
-        image: {
-          content: image,
-        },
-        features: [
-          {
-            type: 'DOCUMENT_TEXT_DETECTION',
-          },
-        ],
-      },
-    ],
-  };
-
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  const result = await response.json();
-  console.log('callGoogleVisionAsync -> result', result);
-
-  return result.responses[0].textAnnotations[0].description;
-}
+import * as ImagePicker from "expo-image-picker";
+import React, { useState } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { AWS_URL } from "../secrets.js";
+import axios from "axios";
 
 export default function Scanner() {
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState(null);
   const [permissions, setPermissions] = useState(false);
+  const [base64, setBase64] = useState("");
 
   const askPermissionsAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
+      alert("Permission to access camera roll is required!");
       return;
     } else {
       setPermissions(true);
@@ -58,9 +28,12 @@ export default function Scanner() {
 
     if (!cancelled) {
       setImage(uri);
-      setStatus('Loading...');
+      setStatus("Loading...");
       try {
-        const result = await callGoogleVisionAsync(base64);
+        const res = await axios.post(AWS_URL + "receipts", { base64 });
+        console.log("IT IS WORKING IN THE FROTNEND\n", res.data);
+        // redo this -- we will get back receipt data
+        // store this data in redux!
         setStatus(result);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
@@ -89,9 +62,9 @@ export default function Scanner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 300,
