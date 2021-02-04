@@ -2,82 +2,44 @@ import * as React from 'react';
 import 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
-import { 
+import { createStackNavigator } from '@react-navigation/stack';
+import {
   Login,
   Signup,
   Home,
   UserHome,
   History,
   Scanner,
-  FriendsList
- } from './client/views'
-
-
+  FriendsList,
+} from './client/views';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const Stack = createStackNavigator();
 
-export default function App(){
+export default function App() {
   return (
-    <NavigationContainer>
-      
-      <Stack.Navigator>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
 
-        <Stack.Screen
-               name='Home' 
-               component={Home} 
-        />
+          <Stack.Screen name="Login" component={Login} />
 
-        <Stack.Screen
-               name='Login' 
-               component={Login} 
-        />
+          <Stack.Screen name="Signup" component={Signup} />
 
-        <Stack.Screen
-               name='Signup' 
-               component={Signup} 
-        />
+          <Stack.Screen name="UserHome" component={UserHome} />
 
-        <Stack.Screen
-               name='UserHome' 
-               component={UserHome} 
-        />
-        
-        <Stack.Screen
-               name='History' 
-               component={History} 
-        />
-        
-        <Stack.Screen
-               name='Scanner' 
-               component={Scanner} 
-        />
+          <Stack.Screen name="History" component={History} />
 
-        <Stack.Screen
-               name='FriendsList' 
-               component={FriendsList} 
-        />
+          <Stack.Screen name="Scanner" component={Scanner} />
 
-      </Stack.Navigator>
-
-    </NavigationContainer>
-
-
-  )
-
+          <Stack.Screen name="FriendsList" component={FriendsList} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
