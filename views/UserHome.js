@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
 import {
   Text,
-  TextInput,
   View,
-  Platform,
-  StatusBar,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { Button, normalize } from 'react-native-elements';
-import pie from '../assets/pie.jpg';
 import styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { ImageBackground } from 'react-native';
 import pic from '../assets/HandsomeSquidward.png';
 import profile from '../assets/profile.png';
-import { Link } from '@react-navigation/native';
+import { connect } from 'react-redux';
+import { logout } from '../store'
 
-export default class UserHome extends Component {
+
+class UserHome extends Component {
   constructor() {
     super();
     this.state = {
@@ -31,8 +27,15 @@ export default class UserHome extends Component {
     };
   }
 
+  handlePressLogout = () => {
+    this.props.logout();
+    this.props.navigation.navigate('Home');
+  };
+
   render() {
     const { navigation } = this.props;
+    const { user } = this.props
+
     return (
       <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -41,14 +44,16 @@ export default class UserHome extends Component {
               <View style={styles.navbar}>
                 <Text style={styles.navtextsmall}>Settings {'\n'} </Text>
                 <Text style={styles.navtextbig}>Home </Text>
-                <Text style={styles.navtextsmall}>Logout</Text>
+                <Text
+                  onPress={this.handlePressLogout}
+                  style={styles.navtextsmall}>Logout</Text>
               </View>
 
               <Image source={pic} style={styles.profileimage} />
 
-              <Text style={styles.profilenametext}>Handsome Squidward</Text>
+              <Text style={styles.profilenametext}>{user.fullName}</Text>
 
-              <Text style={styles.profileemailtext}>handsome@email.com</Text>
+              <Text style={styles.profileemailtext}>{user.email}</Text>
 
               <Text>{'\n'}</Text>
 
@@ -74,6 +79,7 @@ export default class UserHome extends Component {
                   Slicing History
                 </Text>
               </TouchableOpacity>
+              
             </ImageBackground>
           </View>
         </TouchableWithoutFeedback>
@@ -81,3 +87,18 @@ export default class UserHome extends Component {
     );
   }
 }
+
+
+const mapState = (state) => {
+  return {
+    user: state.user
+  }
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    logout: () => dispatch( logout() ),
+  };
+};
+
+export default connect(mapState, mapDispatch)(UserHome)

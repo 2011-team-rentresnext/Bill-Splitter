@@ -4,6 +4,7 @@ const apiUrl = "https://obj3d3mu6f.execute-api.us-east-1.amazonaws.com/api/";
  * ACTION TYPES
  */
 const GET_USER = "GET_USER";
+const REMOVE_USER = "REMOVE_USER"
 
 /**
  * INITIAL STATE
@@ -14,13 +15,13 @@ const defaultUser = {};
  * ACTION CREATORS
  */
 const getUser = (user) => ({ type: GET_USER, user });
-
+const removeUser = () => ({type: REMOVE_USER})
 /**
  * THUNK CREATORS
  */
 export const me = () => async (dispatch) => {
   try {
-    const res = await axios.get(apiUrl + "auth/login");
+    const res = await axios.get(`${apiUrl}/auth/login`);
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -30,13 +31,13 @@ export const me = () => async (dispatch) => {
 export const auth = (email, password) => async (dispatch) => {
   let res;
   try {
-    res = await axios.post(apiUrl + "auth/login", { email, password });
+    res = await axios.post(`${apiUrl}/auth/login`, { email, password });
     dispatch(getUser(res.data));
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
 
-  // try {
+  // try { It is Now Working
   //   dispatch(getUser(res.data));
   //   // history.push('/home'); check how this works in RNative
   // } catch (dispatchOrHistoryErr) {
@@ -46,13 +47,21 @@ export const auth = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.post("/auth/logout");
+    await axios.post(`${apiUrl}/auth/logout`);
     dispatch(removeUser());
-    history.push("/login");
   } catch (err) {
     console.error(err);
   }
 };
+
+export const signup = (newUser) => async (dispatch) => {
+  try {
+    const { data } = await axios.post(`${apiUrl}/auth/signup`, newUser);
+    dispatch(getUser(data));
+  } catch (err) {
+    console.error(err);;
+  }
+}
 
 /**
  * REDUCER
@@ -61,6 +70,8 @@ export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user;
+    case REMOVE_USER:
+      return {}
     default:
       return state;
   }

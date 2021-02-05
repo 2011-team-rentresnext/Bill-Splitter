@@ -3,21 +3,16 @@ import {
   Text,
   TextInput,
   View,
-  Platform,
-  StatusBar,
-  Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { Button, normalize } from 'react-native-elements';
-import pie from '../assets/pie.jpg';
 import styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { ImageBackground } from 'react-native';
+import { connect } from 'react-redux'
+import { signup } from '../store'
 
-export default class Signup extends Component {
+class Signup extends Component {
   constructor() {
     super();
     this.state = {
@@ -27,6 +22,11 @@ export default class Signup extends Component {
       password: '',
     };
   }
+
+  handlePress = () => {
+    this.props.signup(this.state);
+    this.props.navigation.navigate('UserHome');
+  };
 
   render() {
     return (
@@ -74,11 +74,7 @@ export default class Signup extends Component {
 
             <TouchableOpacity
               style={styles.loginbutton}
-              onPress={() =>
-                alert(
-                  `First name is ${this.state.firstName}, last name is ${this.state.lastName}, Email is ${this.state.email} and pass is ${this.state.password}`
-                )
-              }
+              onPress={this.handlePress}
             >
               <Text style={styles.logintext}>Sign up</Text>
             </TouchableOpacity>
@@ -88,3 +84,16 @@ export default class Signup extends Component {
     );
   }
 }
+
+const mapState = (state) => {
+  return { user: state.user };
+};
+
+const mapDispatch = (dispatch) => {
+  
+  return {
+    signup: (newUser) => dispatch(signup(newUser)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Signup);
