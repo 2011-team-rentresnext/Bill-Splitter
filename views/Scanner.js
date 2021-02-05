@@ -1,7 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { AWS_URL } from "../secrets.js";
 import { connect } from "react-redux";
 
 export default function Scanner() {

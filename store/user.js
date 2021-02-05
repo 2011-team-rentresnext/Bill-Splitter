@@ -4,6 +4,7 @@ import { AWS_URL } from "../secrets.js";
  * ACTION TYPES
  */
 const GET_USER = "GET_USER";
+const REMOVE_USER = "REMOVE_USER";
 
 /**
  * INITIAL STATE
@@ -14,7 +15,7 @@ const defaultUser = {};
  * ACTION CREATORS
  */
 const getUser = (user) => ({ type: GET_USER, user });
-
+const removeUser = () => ({ type: REMOVE_USER });
 /**
  * THUNK CREATORS
  */
@@ -36,7 +37,7 @@ export const auth = (email, password) => async (dispatch) => {
     return dispatch(getUser({ error: authError }));
   }
 
-  // try {
+  // try { It is Now Working
   //   dispatch(getUser(res.data));
   //   // history.push('/home'); check how this works in RNative
   // } catch (dispatchOrHistoryErr) {
@@ -46,9 +47,17 @@ export const auth = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axios.post("/auth/logout");
+    await axios.post(`${apiUrl}/auth/logout`);
     dispatch(removeUser());
-    history.push("/login");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const signup = (newUser) => async (dispatch) => {
+  try {
+    const { data } = await axios.post(`${apiUrl}/auth/signup`, newUser);
+    dispatch(getUser(data));
   } catch (err) {
     console.error(err);
   }
@@ -61,6 +70,8 @@ export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user;
+    case REMOVE_USER:
+      return {};
     default:
       return state;
   }
