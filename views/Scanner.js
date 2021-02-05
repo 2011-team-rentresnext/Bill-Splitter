@@ -2,7 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { AWS_URL } from "../secrets.js";
-import axios from "axios";
+import { connect } from "react-redux";
 
 export default function Scanner() {
   const [image, setImage] = useState(null);
@@ -30,11 +30,8 @@ export default function Scanner() {
       setImage(uri);
       setStatus("Loading...");
       try {
-        const res = await axios.post(AWS_URL + "receipts", { base64 });
-        console.log("IT IS WORKING IN THE FROTNEND\n", res.data);
-        // redo this -- we will get back receipt data
-        // store this data in redux!
-        setStatus(result);
+        this.props.login(base64);
+        setStatus(this.props.receipt);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -74,3 +71,15 @@ const styles = StyleSheet.create({
     margin: 5,
   },
 });
+
+const mapState = (state) => {
+  return { receipt: state.receipt };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    scanReceipt: (base64) => dispatch(scanReceipt(base64)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Scanner);
