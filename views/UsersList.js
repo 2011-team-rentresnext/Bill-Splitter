@@ -17,9 +17,14 @@ import { Card } from "react-native-elements";
 import { searchUsersThunk } from "../store/users";
 
 export function UsersList(props) {
+  console.log("Got selected Items: ", props.route.params.selectedItems);
   const { navigation, users, searchUsers } = props;
   const handleTextChange = (searchTerm) => {
     searchUsers(searchTerm);
+  };
+
+  const handleSelectionPress = (user) => {
+    console.log("SELECTED USER: ", user);
   };
   return (
     <KeyboardAwareScrollView>
@@ -31,21 +36,30 @@ export function UsersList(props) {
             onChangeText={handleTextChange}
           />
 
-          <ScrollView>
-            {users.map((user) => {
-              const name = `${user.firstName} ${user.lastName}`;
-              return (
-                <Card key={user.id} title={name} style={styles.usersCardCol}>
-                  <View>
-                    <View style={styles.usersCard}>
-                      <Text>Name: {name}</Text>
-                      <Text>{user.email}</Text>
+          <View style={{ width: "100%" }}>
+            <ScrollView>
+              {users.map((user) => {
+                const name = `${user.firstName} ${user.lastName}`;
+                return (
+                  <TouchableOpacity
+                    key={user.id}
+                    onPress={(e) => {
+                      handleSelectionPress(user);
+                    }}
+                  >
+                    <View style={{ width: "100%" }}>
+                      <Card title={name} style={{ width: "100%" }}>
+                        <View style={styles.userCard}>
+                          <Text style={{ fontSize: 25 }}>{name} </Text>
+                          <Text style={{ flexWrap: "wrap" }}>{user.email}</Text>
+                        </View>
+                      </Card>
                     </View>
-                  </View>
-                </Card>
-              );
-            })}
-          </ScrollView>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>

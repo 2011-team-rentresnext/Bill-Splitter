@@ -12,6 +12,7 @@ import {
   Scanner,
   FriendsList,
   UsersList,
+  ReceiptItems,
 } from "./views";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -23,7 +24,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={ReceiptItems} />
 
           <Stack.Screen name="Login" component={Login} />
 
@@ -35,7 +36,7 @@ export default function App() {
 
           <Stack.Screen name="Scanner" component={Scanner} />
 
-          <Stack.Screen name="FriendsList" component={UsersList} />
+          <Stack.Screen name="UsersList" component={UsersList} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
