@@ -37,6 +37,8 @@ export default function App() {
           <Stack.Screen name="Scanner" component={Scanner} />
 
           <Stack.Screen name="UsersList" component={UsersList} />
+
+          <Stack.Screen name="ReceiptItems" component={ReceiptItems} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

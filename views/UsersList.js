@@ -13,18 +13,38 @@ import pie from "../assets/pie.jpg";
 import styles from "./styles";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import { ScrollView } from "react-native-gesture-handler";
-import { Card } from "react-native-elements";
+import { Card, Overlay, Button } from "react-native-elements";
 import { searchUsersThunk } from "../store/users";
+import { assignUser } from "../store/dummyReceipt";
 
 export function UsersList(props) {
-  console.log("Got selected Items: ", props.route.params.selectedItems);
+  const { selectedItems } = props.route.params;
+  console.log("Got selected Items: ", selectedItems);
   const { navigation, users, searchUsers } = props;
+  const [visible, setVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  let textInput;
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
   const handleTextChange = (searchTerm) => {
     searchUsers(searchTerm);
   };
 
   const handleSelectionPress = (user) => {
     console.log("SELECTED USER: ", user);
+    setSelectedUser(user);
+    setVisible(true);
+  };
+
+  const handleUserConfirmation = () => {
+    const itemIds = selectedItems.map((item) => item.itemId);
+    props.confirmUser(selectedUser.id, itemIds);
+    setVisible(false);
+    props.navigation.navigate("ReceiptItems");
+    textInput.clear();
   };
   return (
     <KeyboardAwareScrollView>
@@ -32,6 +52,9 @@ export function UsersList(props) {
         <View style={styles.container}>
           <Text style={styles.texttitle}>Select Slicer</Text>
           <TextInput
+            ref={(input) => {
+              textInput = input;
+            }}
             style={styles.credentialinput}
             onChangeText={handleTextChange}
           />
@@ -60,6 +83,29 @@ export function UsersList(props) {
               })}
             </ScrollView>
           </View>
+          <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+            <Card>
+              <Card.Title style={{ fontSize: 25 }}>
+                {`${selectedUser.firstName} ${selectedUser.lastName}`}
+              </Card.Title>
+              <Card.Divider />
+              {selectedItems.map((item) => {
+                return (
+                  <View
+                    key={item.itemId}
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={{ marginBottom: 20 }}>{`${item.name}`}</Text>
+                    <Text>{`${item.price}`}</Text>
+                  </View>
+                );
+              })}
+              <Button onPress={handleUserConfirmation} title="Slice"></Button>
+            </Card>
+          </Overlay>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>
@@ -73,6 +119,9 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     searchUsers: (searchTerm) => dispatch(searchUsersThunk(searchTerm)),
+    confirmUser: (userId, itemIds) => {
+      dispatch(assignUser(userId, itemIds));
+    },
   };
 };
 

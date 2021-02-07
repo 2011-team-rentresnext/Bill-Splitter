@@ -1,3 +1,7 @@
+// action types
+const ASSIGN_USER = `ASSIGN_USER`;
+
+// initial state
 const defaultReceipt = {
   receiptId: 1,
   total: 9163,
@@ -51,11 +55,34 @@ const defaultReceipt = {
   },
 };
 
+//action creator
+export const assignUser = (userId, itemIds) => {
+  return { type: ASSIGN_USER, userId, itemIds };
+};
+
+// helper function
+const assignUserReducer = (state, userId, itemIds) => {
+  const updatedItems = state.items.map((item) => {
+    item = { ...item };
+    if (itemIds.includes(item.itemId)) {
+      item.assignedUser = userId;
+    }
+    return item;
+  });
+  return {
+    ...state,
+    creditor: { ...state.creditor },
+    items: updatedItems,
+  };
+};
+
 /**
  * REDUCER
  */
 export default function (state = defaultReceipt, action) {
   switch (action.type) {
+    case ASSIGN_USER:
+      return assignUserReducer(state, action.userId, action.itemIds);
     default:
       return state;
   }

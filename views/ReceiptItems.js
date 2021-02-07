@@ -8,6 +8,10 @@ import styles from "./styles";
 export function ReceiptItems(props) {
   // console.log(props.items);
   const { items } = props;
+  // check if all items are assigned
+  if (!items.filter((item) => !item.assignedUser).length) {
+    // all the items are assigned
+  }
   const [selectedItems, updateSelectedItems] = useState([]);
   const [selectedItemIds, updateSelectedItemIds] = useState([]);
 
@@ -63,7 +67,9 @@ export function ReceiptItems(props) {
           <View>
             {items
               .filter((item) => {
-                return !selectedItemIds.includes(item.itemId);
+                return (
+                  !selectedItemIds.includes(item.itemId) && !item.assignedUser
+                );
               })
               .map((item) => {
                 return (
