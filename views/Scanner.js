@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { connect } from "react-redux";
 
-export default function Scanner() {
+export function Scanner() {
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState(null);
   const [permissions, setPermissions] = useState(false);
@@ -68,8 +68,7 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 5,
-   
-  }
+  },
 });
 
 const mapState = (state) => {

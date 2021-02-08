@@ -1,8 +1,11 @@
-import * as React from 'react';
-import 'react-native-gesture-handler';
-import { StyleSheet, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
+import * as React from "react";
+import "react-native-gesture-handler";
+import { StyleSheet, Button } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from "@react-navigation/stack";
 import {
   Login,
   Signup,
@@ -11,89 +14,87 @@ import {
   History,
   Scanner,
   FriendsList,
+  UsersList,
+  ReceiptItems,
+  SuccessPage,
   LoadingPage,
-  
-} from './views';
-import { Provider } from 'react-redux';
-import store from './store';
+} from "./views";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const Stack = createStackNavigator();
 
 export default function App() {
- 
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             gestureEnabled: false,
-            headerTitleAlign: 'center',
+            headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: '#E83535',
+              backgroundColor: "#E83535",
             },
-            headerTintColor: '#fff',
+            headerTintColor: "#fff",
             headerTitleStyle: {
-              fontWeight: 'bold',
+              fontWeight: "bold",
               fontSize: 25,
-              
-            }
+            },
           }}
         >
-
           <Stack.Screen
             name="LoadingPage"
             component={LoadingPage}
             options={{
               title: "",
-              headerLeft: null
-            }} 
+              headerLeft: null,
+            }}
           />
 
           <Stack.Screen
-            name="Home" 
+            name="Home"
             component={Home}
             options={{
-              title:'',
-              headerLeft: null
+              title: "",
+              headerLeft: null,
             }}
           />
 
           <Stack.Screen name="Login" component={Login} />
-          
 
           <Stack.Screen
             name="Signup"
             component={Signup}
             options={{
-              title: ''
+              title: "",
             }}
-            />
+          />
 
-          <Stack.Screen  
-            name="UserHome" 
+          <Stack.Screen
+            name="UserHome"
             component={UserHome}
             options={{
               title: "Home",
-              headerLeft: null
-            }} 
+              headerLeft: null,
+            }}
           />
 
           <Stack.Screen name="History" component={History} />
 
           <Stack.Screen name="Scanner" component={Scanner} />
 
+          <Stack.Screen name="UsersList" component={UsersList} />
+
+          <Stack.Screen name="ReceiptItems" component={ReceiptItems} />
+
+          <Stack.Screen name="SuccessPage" component={SuccessPage} />
           <Stack.Screen
             name="FriendsList"
             component={FriendsList}
             options={{
-              title: "Friends"
-            }}  
+              title: "Friends",
+            }}
           />
-
-          
-        
-          
-          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
@@ -103,9 +104,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 300,
