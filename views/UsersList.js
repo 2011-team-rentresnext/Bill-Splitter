@@ -1,4 +1,5 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import {
   Text,
@@ -16,11 +17,21 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Card, Overlay, Button } from "react-native-elements";
 import { searchUsersThunk } from "../store/users";
 import { assignUser } from "../store/dummyReceipt";
+import { AWS_URL } from "../secrets";
+
+// prevents useEffect from running on component mount
+const useDidUpdateEffect = (fn, inputs) => {
+  const didMountRef = useRef(false);
+
+  useEffect(() => {
+    if (didMountRef.current) fn();
+    else didMountRef.current = true;
+  }, inputs);
+};
 
 export function UsersList(props) {
   const { selectedItems } = props.route.params;
-  console.log("Got selected Items: ", selectedItems);
-  const { navigation, users, searchUsers } = props;
+  const { navigation, users, searchUsers, items } = props;
   const [visible, setVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   let textInput;
@@ -34,18 +45,75 @@ export function UsersList(props) {
   };
 
   const handleSelectionPress = (user) => {
-    console.log("SELECTED USER: ", user);
     setSelectedUser(user);
     setVisible(true);
   };
+
+  // runs when items are updated via assignment
+  useDidUpdateEffect(() => {
+    async function postAssignment(requestBody) {
+      try {
+        await axios.post(
+          `${AWS_URL}receipts/${props.receiptId}/assign`,
+          requestBody
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    // check if all items are assigned
+    if (!items.filter((item) => !item.assignedUser).length) {
+      // all the items are assigned
+      // build request body
+      let assignmentPostBody = items.reduce((requestBody, currentItem) => {
+        let foundUserFlag = false;
+        requestBody = requestBody.map((userAssignment) => {
+          //check if user already has items in the request body
+          // if so, add item to their existing array of items: assignedItems
+          if (userAssignment.userId === currentItem.assignedUser) {
+            foundUserFlag = true;
+            return {
+              ...userAssignment,
+              assignedItems: [
+                ...userAssignment.assignedItems,
+                { itemId: currentItem.itemId, price: currentItem.price },
+              ],
+            };
+          } else {
+            return userAssignment;
+          }
+        });
+        // if user was not already in request body, add an entry for the user
+        if (!foundUserFlag) {
+          requestBody.push({
+            userId: currentItem.assignedUser,
+            assignedItems: [
+              {
+                itemId: currentItem.itemId,
+                price: currentItem.price,
+              },
+            ],
+          });
+        }
+        return requestBody;
+      }, []);
+      // fire thunk to assign items
+      postAssignment(assignmentPostBody);
+      // TO DO navigate to home page with confirmation screen
+      navigation.navigate("SuccessPage");
+    } else {
+      // not done assigning, go to receipt items list
+      navigation.navigate("ReceiptItems");
+    }
+  }, items);
 
   const handleUserConfirmation = () => {
     const itemIds = selectedItems.map((item) => item.itemId);
     props.confirmUser(selectedUser.id, itemIds);
     setVisible(false);
-    props.navigation.navigate("ReceiptItems");
     textInput.clear();
   };
+
   return (
     <KeyboardAwareScrollView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -113,7 +181,7 @@ export function UsersList(props) {
 }
 
 const mapState = (state) => {
-  return { users: state.users };
+  return { users: state.users, items: state.dummyReceipt.items };
 };
 
 const mapDispatch = (dispatch) => {

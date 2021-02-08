@@ -3,46 +3,46 @@ const ASSIGN_USER = `ASSIGN_USER`;
 
 // initial state
 const defaultReceipt = {
-  receiptId: 1,
+  receiptId: 51,
   total: 9163,
   items: [
     {
-      itemId: 3,
+      itemId: 291,
       name: "meatloaf",
       price: 2487,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 2,
+      itemId: 292,
       name: "chicken",
       price: 1922,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 5,
+      itemId: 293,
       name: "salmon",
       price: 3127,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 6,
+      itemId: 294,
       name: "risotto",
       price: 1982,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 4,
+      itemId: 295,
       name: "coffee",
       price: 867,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 1,
+      itemId: 296,
       name: "beer",
       price: 700,
       quantity: 1,

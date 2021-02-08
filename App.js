@@ -13,6 +13,7 @@ import {
   FriendsList,
   UsersList,
   ReceiptItems,
+  SuccessPage,
 } from "./views";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -39,6 +40,8 @@ export default function App() {
           <Stack.Screen name="UsersList" component={UsersList} />
 
           <Stack.Screen name="ReceiptItems" component={ReceiptItems} />
+
+          <Stack.Screen name="SuccessPage" component={SuccessPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

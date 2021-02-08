@@ -1,22 +1,19 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Card, BottomSheet, Button } from "react-native-elements";
 import { connect } from "react-redux";
+import axios from "axios";
 import styles from "./styles";
+import { AWS_URL } from "../secrets";
 
 export function ReceiptItems(props) {
   // console.log(props.items);
   const { items } = props;
-  // check if all items are assigned
-  if (!items.filter((item) => !item.assignedUser).length) {
-    // all the items are assigned
-  }
   const [selectedItems, updateSelectedItems] = useState([]);
   const [selectedItemIds, updateSelectedItemIds] = useState([]);
 
   const handleSelectionPress = (item) => {
-    console.log("ITEM IS :", item);
     updateSelectedItems([...selectedItems, item]);
     updateSelectedItemIds([...selectedItemIds, item.itemId]);
   };
@@ -105,7 +102,10 @@ export function ReceiptItems(props) {
 }
 
 const mapStateToProps = (state) => {
-  return { items: state.dummyReceipt.items };
+  return {
+    items: state.dummyReceipt.items,
+    receiptId: state.dummyReceipt.receiptId,
+  };
 };
 
 export default connect(mapStateToProps)(ReceiptItems);
