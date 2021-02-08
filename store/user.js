@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AWS_URL } from "../secrets.js";
+const apiUrl = "https://obj3d3mu6f.execute-api.us-east-1.amazonaws.com/api/";
 /**
  * ACTION TYPES
  */
@@ -36,8 +37,7 @@ export const auth = (email, password) => async (dispatch) => {
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
-
- };
+};
 
 export const logout = () => async (dispatch) => {
   try {

@@ -42,6 +42,6 @@ export default function (state = {}, action) {
     case MAKE_RECEIPT:
       return action.receipt;
     default:
-      return receipt;
+      return state;
   }
 }
