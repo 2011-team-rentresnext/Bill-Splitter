@@ -29,6 +29,8 @@ export function ReceiptItems(props) {
 
   const handleNext = () => {
     props.navigation.navigate("UsersList", { selectedItems });
+    updateSelectedItems([]);
+    updateSelectedItemIds([]);
   };
 
   return (
