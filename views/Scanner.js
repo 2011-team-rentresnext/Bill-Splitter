@@ -54,7 +54,7 @@ function Scanner(props) {
           {status &&
             status.id &&
             status.items.map((item) => (
-              <Text style={styles.text}>
+              <Text style={styles.text} key={item.id}>
                 {item.name} {item.price}
               </Text>
             ))}
