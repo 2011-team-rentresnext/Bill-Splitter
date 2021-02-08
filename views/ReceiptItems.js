@@ -35,59 +35,64 @@ export function ReceiptItems(props) {
     <View styles={styles.container}>
       <Text style={styles.texttitle}>Slice your receipt!</Text>
       <Text style={styles.textsubtitle}>Select item(s) for a friend</Text>
-      <View style={{ height: "79%" }}>
-        <ScrollView>
-          <View>
-            {selectedItems.map((item) => {
-              return (
-                <TouchableOpacity
-                  key={item.id}
-                  onPress={(e) => {
-                    handleUnselectPress(item);
-                  }}
-                >
-                  <Card
-                    title={item.name}
-                    containerStyle={styles.selectedItemCard}
-                  >
-                    <View>
-                      <View style={styles.itemCard}>
-                        <Text style={{ color: "white" }}>{item.name}</Text>
-                        <Text style={{ color: "white" }}>{item.price}</Text>
-                      </View>
-                    </View>
-                  </Card>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <View>
-            {items
-              .filter((item) => {
-                return !selectedItemIds.includes(item.id) && !item.assignedUser;
-              })
-              .map((item) => {
+      {items && items.length ? (
+        <View style={{ height: "79%" }}>
+          <ScrollView>
+            <View>
+              {selectedItems.map((item) => {
                 return (
                   <TouchableOpacity
                     key={item.id}
                     onPress={(e) => {
-                      handleSelectionPress(item);
+                      handleUnselectPress(item);
                     }}
                   >
-                    <Card title={item.name} style={styles.usersCardCol}>
+                    <Card
+                      title={item.name}
+                      containerStyle={styles.selectedItemCard}
+                    >
                       <View>
                         <View style={styles.itemCard}>
-                          <Text>{item.name}</Text>
-                          <Text>{item.price}</Text>
+                          <Text style={{ color: "white" }}>{item.name}</Text>
+                          <Text style={{ color: "white" }}>{item.price}</Text>
                         </View>
                       </View>
                     </Card>
                   </TouchableOpacity>
                 );
               })}
-          </View>
-        </ScrollView>
-      </View>
+            </View>
+            <View>
+              {items
+                .filter((item) => {
+                  return (
+                    !selectedItemIds.includes(item.id) && !item.assignedUser
+                  );
+                })
+                .map((item) => {
+                  return (
+                    <TouchableOpacity
+                      key={item.id}
+                      onPress={(e) => {
+                        handleSelectionPress(item);
+                      }}
+                    >
+                      <Card title={item.name} style={styles.usersCardCol}>
+                        <View>
+                          <View style={styles.itemCard}>
+                            <Text>{item.name}</Text>
+                            <Text>{item.price}</Text>
+                          </View>
+                        </View>
+                      </Card>
+                    </TouchableOpacity>
+                  );
+                })}
+            </View>
+          </ScrollView>
+        </View>
+      ) : null}
+
       <View style={{ padding: 1 }}>
         <Button
           onPress={handleNext}

@@ -180,7 +180,11 @@ export function UsersList(props) {
 }
 
 const mapState = (state) => {
-  return { users: state.users, items: state.receipt.items };
+  return {
+    users: state.users,
+    items: state.receipt.items,
+    receiptId: state.receipt.id,
+  };
 };
 
 const mapDispatch = (dispatch) => {

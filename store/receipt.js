@@ -28,7 +28,7 @@ const makeReceipt = (receipt) => {
 export const scanReceipt = (base64) => {
   return async (dispatch) => {
     try {
-      console.log("aws url", AWS_URL);
+      console.log("aws url is this! HERE! :  ", AWS_URL + "receipts");
       const res = await axios.post(AWS_URL + "receipts", { base64 });
       console.log(res.data.items);
       dispatch(makeReceipt(res.data));
@@ -62,8 +62,8 @@ export default function (receipt = {}, action) {
     case MAKE_RECEIPT:
       return action.receipt;
     case ASSIGN_USER:
-      return assignUserReducer(state, action.userId, action.itemIds);
+      return assignUserReducer(receipt, action.userId, action.itemIds);
     default:
-      return state;
+      return receipt;
   }
 }
