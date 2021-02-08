@@ -15,15 +15,15 @@ export function ReceiptItems(props) {
 
   const handleSelectionPress = (item) => {
     updateSelectedItems([...selectedItems, item]);
-    updateSelectedItemIds([...selectedItemIds, item.itemId]);
+    updateSelectedItemIds([...selectedItemIds, item.id]);
   };
 
   const handleUnselectPress = (item) => {
     updateSelectedItems(
-      selectedItems.filter((currentItem) => currentItem.itemId !== item.itemId)
+      selectedItems.filter((currentItem) => currentItem.id !== item.id)
     );
     updateSelectedItemIds(
-      selectedItemIds.filter((itemId) => itemId !== item.itemId)
+      selectedItemIds.filter((itemId) => itemId !== item.id)
     );
   };
 
@@ -41,7 +41,7 @@ export function ReceiptItems(props) {
             {selectedItems.map((item) => {
               return (
                 <TouchableOpacity
-                  key={item.itemId}
+                  key={item.id}
                   onPress={(e) => {
                     handleUnselectPress(item);
                   }}
@@ -64,14 +64,12 @@ export function ReceiptItems(props) {
           <View>
             {items
               .filter((item) => {
-                return (
-                  !selectedItemIds.includes(item.itemId) && !item.assignedUser
-                );
+                return !selectedItemIds.includes(item.id) && !item.assignedUser;
               })
               .map((item) => {
                 return (
                   <TouchableOpacity
-                    key={item.itemId}
+                    key={item.id}
                     onPress={(e) => {
                       handleSelectionPress(item);
                     }}
@@ -101,6 +99,7 @@ export function ReceiptItems(props) {
   );
 }
 
+// TODO: switch to real receipt
 const mapStateToProps = (state) => {
   return {
     items: state.dummyReceipt.items,

@@ -25,6 +25,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+          {/* TODO:change component to Home */}
           <Stack.Screen name="Home" component={ReceiptItems} />
 
           <Stack.Screen name="Login" component={Login} />

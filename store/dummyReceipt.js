@@ -1,3 +1,4 @@
+// TODO: Add to real receipt subreducer
 // action types
 const ASSIGN_USER = `ASSIGN_USER`;
 
@@ -7,42 +8,42 @@ const defaultReceipt = {
   total: 9163,
   items: [
     {
-      itemId: 291,
+      id: 291,
       name: "meatloaf",
       price: 2487,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 292,
+      id: 292,
       name: "chicken",
       price: 1922,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 293,
+      id: 293,
       name: "salmon",
       price: 3127,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 294,
+      id: 294,
       name: "risotto",
       price: 1982,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 295,
+      id: 295,
       name: "coffee",
       price: 867,
       quantity: 1,
       itemizedTransactions: [],
     },
     {
-      itemId: 296,
+      id: 296,
       name: "beer",
       price: 700,
       quantity: 1,
@@ -55,16 +56,18 @@ const defaultReceipt = {
   },
 };
 
+// TODO: Add to real receipt subreducer
 //action creator
 export const assignUser = (userId, itemIds) => {
   return { type: ASSIGN_USER, userId, itemIds };
 };
 
+// TODO: Add to real receipt subreducer
 // helper function
 const assignUserReducer = (state, userId, itemIds) => {
   const updatedItems = state.items.map((item) => {
     item = { ...item };
-    if (itemIds.includes(item.itemId)) {
+    if (itemIds.includes(item.id)) {
       item.assignedUser = userId;
     }
     return item;
@@ -81,6 +84,7 @@ const assignUserReducer = (state, userId, itemIds) => {
  */
 export default function (state = defaultReceipt, action) {
   switch (action.type) {
+    // TODO: Add assign user case to real receipt subreducer
     case ASSIGN_USER:
       return assignUserReducer(state, action.userId, action.itemIds);
     default:

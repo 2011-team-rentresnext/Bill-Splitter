@@ -16,6 +16,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview"
 import { ScrollView } from "react-native-gesture-handler";
 import { Card, Overlay, Button } from "react-native-elements";
 import { searchUsersThunk } from "../store/users";
+// TODO: switch import to real receipt e.g. 'store/receipt'
 import { assignUser } from "../store/dummyReceipt";
 import { AWS_URL } from "../secrets";
 
@@ -76,7 +77,7 @@ export function UsersList(props) {
               ...userAssignment,
               assignedItems: [
                 ...userAssignment.assignedItems,
-                { itemId: currentItem.itemId, price: currentItem.price },
+                { itemId: currentItem.id, price: currentItem.price },
               ],
             };
           } else {
@@ -89,7 +90,7 @@ export function UsersList(props) {
             userId: currentItem.assignedUser,
             assignedItems: [
               {
-                itemId: currentItem.itemId,
+                itemId: currentItem.id,
                 price: currentItem.price,
               },
             ],
@@ -99,7 +100,7 @@ export function UsersList(props) {
       }, []);
       // fire thunk to assign items
       postAssignment(assignmentPostBody);
-      // TO DO navigate to home page with confirmation screen
+      // TODO: navigate to home page with confirmation screen
       navigation.navigate("SuccessPage");
     } else {
       // not done assigning, go to receipt items list
@@ -108,7 +109,7 @@ export function UsersList(props) {
   }, items);
 
   const handleUserConfirmation = () => {
-    const itemIds = selectedItems.map((item) => item.itemId);
+    const itemIds = selectedItems.map((item) => item.id);
     props.confirmUser(selectedUser.id, itemIds);
     setVisible(false);
     textInput.clear();
@@ -160,7 +161,7 @@ export function UsersList(props) {
               {selectedItems.map((item) => {
                 return (
                   <View
-                    key={item.itemId}
+                    key={item.id}
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
@@ -180,6 +181,7 @@ export function UsersList(props) {
   );
 }
 
+// TODO: swap dummyReceipt for real receipt
 const mapState = (state) => {
   return { users: state.users, items: state.dummyReceipt.items };
 };
