@@ -5,8 +5,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import user from "./user";
 import users from "./users";
 import dummyReceipt from "./dummyReceipt";
+import receipt from "./receipt";
 
-const reducer = combineReducers({ user, users, dummyReceipt });
+const reducer = combineReducers({ user, users, dummyReceipt, receipt });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
