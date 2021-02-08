@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 5,
-  },
+   
+  }
 });
 
 const mapState = (state) => {

@@ -16,15 +16,11 @@ import { connect } from 'react-redux';
 import { logout } from '../store'
 
 
+
 class UserHome extends Component {
   constructor() {
     super();
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      image: '',
-    };
+   
   }
 
   handlePressLogout = () => {
@@ -36,26 +32,36 @@ class UserHome extends Component {
     const { navigation } = this.props;
     const { user } = this.props
 
+
     return (
       <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.container}>
             <ImageBackground source={profile} style={styles.container}>
+              
               <View style={styles.navbar}>
-                <Text style={styles.navtextsmall}>Settings {'\n'} </Text>
-                <Text style={styles.navtextbig}>Home </Text>
+                <Text
+                  style={styles.navtextsmall}
+                  onPress={()=>alert(`Settings component coming soon`)}>  
+                  Settings </Text>
+                
                 <Text
                   onPress={this.handlePressLogout}
                   style={styles.navtextsmall}>Logout</Text>
               </View>
-
+              <View style={{height: 20}}></View>
+              
               <Image source={pic} style={styles.profileimage} />
 
               <Text style={styles.profilenametext}>{user.fullName}</Text>
 
               <Text style={styles.profileemailtext}>{user.email}</Text>
 
-              <Text>{'\n'}</Text>
+              <Text>
+              {'\n'}
+              {'\n'}
+              {'\n'}
+              </Text>
 
               <TouchableOpacity
                 style={styles.loginbutton}
@@ -64,8 +70,10 @@ class UserHome extends Component {
                 <Text style={styles.logintext}>Start Slicing!</Text>
               </TouchableOpacity>
 
+              {/*
               <TouchableOpacity
                 onPress={() => navigation.navigate('FriendsList')}
+
                 style={styles.loginbutton}
               >
                 <Text style={styles.logintext}>Slicing Friends</Text>
@@ -79,7 +87,27 @@ class UserHome extends Component {
                   Slicing History
                 </Text>
               </TouchableOpacity>
-              
+              */} 
+              <Text>
+              {'\n'}
+              {'\n'}
+              {'\n'} 
+              {'\n'}
+              {'\n'}
+              {'\n'} 
+              {'\n'}
+              {'\n'} 
+              {'\n'}
+              {'\n'}
+              {'\n'} 
+              {'\n'}
+              {'\n'}
+              {'\n'} 
+              {'\n'}
+              {'\n'}
+              {'\n'} 
+              </Text>
+           
             </ImageBackground>
           </View>
         </TouchableWithoutFeedback>

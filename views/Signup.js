@@ -78,6 +78,7 @@ class Signup extends Component {
             >
               <Text style={styles.logintext}>Sign up</Text>
             </TouchableOpacity>
+            
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>

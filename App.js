@@ -1,8 +1,8 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 import {
   Login,
   Signup,
@@ -11,6 +11,8 @@ import {
   History,
   Scanner,
   FriendsList,
+  LoadingPage,
+  
 } from './views';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -18,23 +20,80 @@ import store from './store';
 const Stack = createStackNavigator();
 
 export default function App() {
+ 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
+        <Stack.Navigator
+          screenOptions={{
+            gestureEnabled: false,
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#E83535',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 25,
+              
+            }
+          }}
+        >
+
+          <Stack.Screen
+            name="LoadingPage"
+            component={LoadingPage}
+            options={{
+              title: "",
+              headerLeft: null
+            }} 
+          />
+
+          <Stack.Screen
+            name="Home" 
+            component={Home}
+            options={{
+              title:'',
+              headerLeft: null
+            }}
+          />
 
           <Stack.Screen name="Login" component={Login} />
+          
 
-          <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{
+              title: ''
+            }}
+            />
 
-          <Stack.Screen name="UserHome" component={UserHome} />
+          <Stack.Screen  
+            name="UserHome" 
+            component={UserHome}
+            options={{
+              title: "Home",
+              headerLeft: null
+            }} 
+          />
 
           <Stack.Screen name="History" component={History} />
 
           <Stack.Screen name="Scanner" component={Scanner} />
 
-          <Stack.Screen name="FriendsList" component={FriendsList} />
+          <Stack.Screen
+            name="FriendsList"
+            component={FriendsList}
+            options={{
+              title: "Friends"
+            }}  
+          />
+
+          
+        
+          
+          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
