@@ -1,20 +1,20 @@
-import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { scanReceipt } from '../store/receipt';
+import * as ImagePicker from "expo-image-picker";
+import React, { useState } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { connect } from "react-redux";
+import { scanReceipt } from "../store/receipt";
 
 function Scanner(props) {
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState(null);
   const [permissions, setPermissions] = useState(false);
-  const [base64, setBase64] = useState('');
+  const [base64, setBase64] = useState("");
 
   const askPermissionsAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
+      alert("Permission to access camera roll is required!");
       return;
     } else {
       setPermissions(true);
@@ -27,7 +27,7 @@ function Scanner(props) {
     });
     if (!cancelled) {
       setImage(uri);
-      setStatus('Loading...');
+      setStatus("Loading...");
       try {
         props.scanReceipt(base64);
         setStatus(props.receipt);
@@ -67,9 +67,9 @@ function Scanner(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 300,
@@ -91,7 +91,6 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(Scanner);
-=======
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";

@@ -99,11 +99,10 @@ export function ReceiptItems(props) {
   );
 }
 
-// TODO: switch to real receipt
 const mapStateToProps = (state) => {
   return {
-    items: state.dummyReceipt.items,
-    receiptId: state.dummyReceipt.receiptId,
+    items: state.receipt.items,
+    receiptId: state.receipt.id,
   };
 };
 
