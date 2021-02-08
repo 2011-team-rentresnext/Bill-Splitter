@@ -1,11 +1,11 @@
-import axios from "axios";
-import { AWS_URL } from "../secrets.js";
-const apiUrl = "https://obj3d3mu6f.execute-api.us-east-1.amazonaws.com/api/";
+import axios from 'axios';
+import { AWS_URL } from '../secrets.js';
+
 /**
  * ACTION TYPES
  */
-const GET_USER = "GET_USER";
-const REMOVE_USER = "REMOVE_USER";
+const GET_USER = 'GET_USER';
+const REMOVE_USER = 'REMOVE_USER';
 
 /**
  * INITIAL STATE
@@ -22,7 +22,7 @@ const removeUser = () => ({ type: REMOVE_USER });
  */
 export const me = () => async (dispatch) => {
   try {
-    const res = await axios.get(AWS_URL + "auth/login");
+    const res = await axios.get(AWS_URL + 'auth/login');
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -32,7 +32,8 @@ export const me = () => async (dispatch) => {
 export const auth = (email, password) => async (dispatch) => {
   let res;
   try {
-    res = await axios.post(AWS_URL + "auth/login", { email, password });
+    console.log('user aws url', AWS_URL);
+    res = await axios.post(AWS_URL + 'auth/login', { email, password });
     dispatch(getUser(res.data));
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
