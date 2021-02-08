@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AWS_URL } from '../secrets.js';
+
 /**
  * ACTION TYPES
  */
@@ -37,13 +38,6 @@ export const auth = (email, password) => async (dispatch) => {
   } catch (authError) {
     return dispatch(getUser({ error: authError }));
   }
-
-  // try { It is Now Working
-  //   dispatch(getUser(res.data));
-  //   // history.push('/home'); check how this works in RNative
-  // } catch (dispatchOrHistoryErr) {
-  //   console.error(dispatchOrHistoryErr);
-  // }
 };
 
 export const logout = () => async (dispatch) => {
