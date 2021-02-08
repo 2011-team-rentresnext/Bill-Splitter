@@ -1,19 +1,20 @@
-import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
+import * as ImagePicker from 'expo-image-picker';
+import React, { useState } from 'react';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { scanReceipt } from '../store/receipt';
 
-export default function Scanner() {
+function Scanner(props) {
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState(null);
   const [permissions, setPermissions] = useState(false);
-  const [base64, setBase64] = useState("");
+  const [base64, setBase64] = useState('');
 
   const askPermissionsAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
+      alert('Permission to access camera roll is required!');
       return;
     } else {
       setPermissions(true);
@@ -24,13 +25,12 @@ export default function Scanner() {
     const { cancelled, uri, base64 } = await ImagePicker.launchCameraAsync({
       base64: true,
     });
-
     if (!cancelled) {
       setImage(uri);
-      setStatus("Loading...");
+      setStatus('Loading...');
       try {
-        this.props.login(base64);
-        setStatus(this.props.receipt);
+        props.scanReceipt(base64);
+        setStatus(props.receipt);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -47,7 +47,16 @@ export default function Scanner() {
       ) : (
         <>
           {image && <Image style={styles.image} source={{ uri: image }} />}
-          {status && <Text style={styles.text}>{status}</Text>}
+          {status && status.id && (
+            <Text style={styles.text}>{status.total}</Text>
+          )}
+          {status &&
+            status.id &&
+            status.items.map((item) => (
+              <Text style={styles.text}>
+                {item.name} {item.price}
+              </Text>
+            ))}
           <Button onPress={takePictureAsync} title="Take a Picture" />
         </>
       )}
@@ -58,9 +67,9 @@ export default function Scanner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     width: 300,

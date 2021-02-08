@@ -1,11 +1,11 @@
-import axios from "axios";
-import { AWS_URL } from "../secrets.js";
+import axios from 'axios';
+import { AWS_URL } from '../secrets.js';
 
 /**
  * ACTION TYPES
  */
 
-const MAKE_RECEIPT = "MAKE_RECEIPT";
+const MAKE_RECEIPT = 'MAKE_RECEIPT';
 
 /**
  * ACTION CREATORS
@@ -25,7 +25,9 @@ const makeReceipt = (receipt) => {
 export const scanReceipt = (base64) => {
   return async (dispatch) => {
     try {
-      const res = await axios.post(AWS_URL + "receipts", { base64 });
+      console.log('aws url', AWS_URL);
+      const res = await axios.post(AWS_URL + 'receipts', { base64 });
+      console.log(res.data.items);
       dispatch(makeReceipt(res.data));
     } catch (err) {
       console.error(err);
@@ -37,7 +39,7 @@ export const scanReceipt = (base64) => {
  * REDUCER
  */
 
-export default function (state = {}, action) {
+export default function (receipt = {}, action) {
   switch (action.type) {
     case MAKE_RECEIPT:
       return action.receipt;
