@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
+   
   },
   image: {
     width: 300,
@@ -99,5 +100,6 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 5,
-  },
+   
+  }
 });

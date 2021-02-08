@@ -1,96 +1,125 @@
-import React, {Component} from 'react'
-import { Text, TextInput, View, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native'
-import pie from '../assets/pie.jpg'
-import styles from './styles'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-import { ScrollView } from 'react-native-gesture-handler'
-import { Card } from 'react-native-elements'
-import pic from '../assets/HandsomeSquidward.png'
-
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Keyboard,
+  FlatList,
+  SafeAreaView
+} from 'react-native';
+import styles from './styles';
+import pic from '../assets/HandsomeSquidward.png';
 
 export default class FriendsList extends Component {
-    constructor(){
-        super()
-        this.state = {
-            friends: []
-        } 
-    }
-    
-    render(){
-        const friends = [
-            {
-                id: 1,
-                firstName: 'Ayuna',
-                lastName: 'Tsy',
-                email: 'ayuna@email.com',
-                photo: pic
-            },
-            {
-                id: 2,
-                firstName: 'Oy',
-                lastName: 'Sa',
-                email: 'osa@email.com',
-                photo: pic
-            },
-            {
-                id: 3,
-                firstName: 'Oy',
-                lastName: 'Sa',
-                email: 'osa@email.com',
-                photo: pic
-            },
-            {
-                id: 4,
-                firstName: 'Oy',
-                lastName: 'Sa',
-                email: 'osa@email.com',
-                photo: pic
-            }
-        ]
-        const {navigation} = this.props
-        return (
-        <KeyboardAwareScrollView>
-        <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
-           <View style={styles.container}>
+  constructor() {
+    super();
+    this.state = {
+      friends: [],
+    };
+  }
 
-           <Text style={styles.texttitle}>Slicing Friends</Text>
+  //to use inside FlatList in render
+  renderItem = ({item}) => {
+    return (
+        <View>
+            <TouchableOpacity style={styles.Card}>
+                <View style={styles.friendsrow}>
+                
+                <Image source={item.photo} style={styles.friendimg} />
+                
+                <View>
+                    <View style={styles.nameContainer}>
+                    <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.firstName} {item.lastName}</Text>
+                    <Text style={styles.mblTxt}>Something</Text>
+                    </View>
+                    <View style={styles.emailContainer}>
+                    <Text style={styles.emailTxt}>{item.email}</Text>
+                    </View>
+                </View>
+                </View>
+            </TouchableOpacity>
+            <View style={{height: 10}}></View>
+        </View>
+    );
+  }
 
-            <Text>
-                {'\n'}
-                {'\n'}
-            </Text>
 
-            <ScrollView>
-
-                {friends.map(friend => {
-                    const name = `${friend.firstName} ${friend.lastName}`
-                    return (
-                    
-                        <Card key={friend.id} title={name} style={styles.friendsCardCol}>
-                            
-                            <View>
-                                
-                                <Image source={friend.photo} style={styles.friendimg} resizeMode='contain'/>
-                                
-                                <View style={styles.friendsCard}>
-                                    <Text>Name: {name}{'\n'}</Text>
-                                    <Text>{friend.email}</Text>
-                                </View>
-                            </View>
-                        </Card>
-                    )
-                })}
-
-            </ScrollView>
-
-            </View>
-        </TouchableWithoutFeedback>
-            </KeyboardAwareScrollView>
-
-  
-         )
-    }
-
+  render() {
+    const friends = [
+      {
+        id: 1,
+        firstName: 'Ayuna',
+        lastName: 'Tsyrenova',
+        email: 'ayuna@email.com',
+        photo: pic,
+      },
+      {
+        id: 2,
+        firstName: 'Matt',
+        lastName: 'Ellison',
+        email: 'osa@email.com',
+        photo: pic,
+      },
+      {
+        id: 3,
+        firstName: 'Julie',
+        lastName: 'Lam',
+        email: 'osa@email.com',
+        photo: pic,
+      },
+      {
+        id: 4,
+        firstName: 'Ivan',
+        lastName: 'Lozano',
+        email: 'osa@email.com',
+        photo: pic,
+      },
+      {
+        id: 5,
+        firstName: 'Ayuna',
+        lastName: 'Ura',
+        email: 'ayuna@email.com',
+        photo: pic,
+      },
+      {
+        id: 6,
+        firstName: 'Matt',
+        lastName: 'Eins',
+        email: 'osa@email.com',
+        photo: pic,
+      },
+      {
+        id: 7,
+        firstName: 'Julie',
+        lastName: 'Love',
+        email: 'osa@email.com',
+        photo: pic,
+      },
+      {
+        id: 8,
+        firstName: 'Ivan',
+        lastName: 'Lamb',
+        email: 'osa@email.com',
+        photo: pic,
+      },
+    ];
+    const { navigation } = this.props;
+    return (
+          
+              <FlatList 
+                contentContainerStyle={{backgroundColor: 'white'}}
+                ListHeaderComponent={
+                  <View style={{height: 10}}></View>
+                }
+                extraData={this.state}
+                data={friends}
+                keyExtractor = {(item) => {
+                  return item.id;
+                }}
+                renderItem={this.renderItem}
+              />
+    );
+  }
 }
-
-  

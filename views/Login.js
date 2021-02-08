@@ -30,7 +30,8 @@ class Login extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+        
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.container}>
             <Text style={styles.texttitle}>Slice D'Pie</Text>
@@ -68,6 +69,7 @@ class Login extends Component {
             </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
+      
       </KeyboardAwareScrollView>
     );
   }

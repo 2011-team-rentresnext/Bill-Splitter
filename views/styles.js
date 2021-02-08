@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { StyleSheet } from  'react-native'
+
 
 export default StyleSheet.create({
     container: {
@@ -19,7 +19,15 @@ export default StyleSheet.create({
     texttitle: {
         color: '#E83535',
         fontSize: 45,
-        fontFamily: "Cochin"
+                
+    },
+    titleview: {
+        flex: 1,
+        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#E83535'
+        
+
     },
     loginbutton: {
         marginLeft: 40,
@@ -35,7 +43,7 @@ export default StyleSheet.create({
     logintext: {
         color: 'white',
         fontSize: 30,
-        fontFamily: "Cochin"
+        
     },
 
     //for Login component
@@ -47,7 +55,7 @@ export default StyleSheet.create({
     usernamelabel: {
         color: '#E83535',
         fontSize: 30,
-        fontFamily: "Cochin"
+        
     },
     credentialinput: {
         marginLeft: 40,
@@ -82,15 +90,19 @@ export default StyleSheet.create({
     navtextbig: {
         color: 'white',
         fontSize: 35,
-        fontFamily: "Cochin"
+        
     },
 
     navtextsmall: {
         color: 'white',
-        fontSize: 30,
-        fontFamily: "Cochin"
+        fontSize: 27,
+        
     },
-
+    navtextsettings: {
+      color: '#E83535',
+      fontSize: 35,
+      
+  },
     profileimage: {
         width: 275,
         height: 275,
@@ -100,33 +112,105 @@ export default StyleSheet.create({
     profilenametext: {
         color: '#E83535',
         fontSize: 35,
-        fontFamily: "Cochin"
+        
     },
 
     profileemailtext: {
         color: '#E83535',
         fontSize: 28,
-        fontFamily: "Cochin"
+        
     },
 
     //FriendsList
     friendsCard: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'baseline'
+        
     },
-    
-    friendimg: {
-        width: '50%',
-        height: 100
+    friendsCol: {
+        width: '100%'
     },
 
-    friendsCardCol: {
-        flex: 1,
+    scroll: {
+        width: '100%'
+    },
+
+    friendimg: {
+        borderRadius: 50,
+        width: 90,
+        height: 90,
+    },
+
+    friendsrow: {
         flexDirection: 'row',
+        alignItems: 'center',
+        borderColor: '#E83535',
+        backgroundColor: '#fff',
+        borderRadius: 50,
+        borderWidth: 3,
+        padding: 15,
+        
+ 
+    },
+
+    nameContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 'auto',
+      },
+
+    nameTxt: {
+        marginLeft: 15,
+        fontWeight: '600',
+        color: '#222',
+        fontSize: 30,
+        width:170,
+      },
+      mblTxt: {
+        fontWeight: '200',
+        color: '#777',
+        fontSize: 13,
+      },
+      emailContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      emailTxt: {
+        fontWeight: '400',
+        color: '#008B8B',
+        fontSize: 20,
+        marginLeft: 15,
+      },
+
+      titleFriendList: {
+        flex: 1,
+        color: 'white',
+        fontSize: 50,
+        height: 80,
+   
+  
+      },
+
+      Card: {
+        shadowColor: 'grey', // IOS
+        shadowOffset: { height: 2, width: 5 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        backgroundColor: '#fff',
+        elevation: 1, // Android
+        height: 'auto',
+        width: 'auto',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderRadius: 50,
+        
     },
 });
- 
+  
 
   
+
+
