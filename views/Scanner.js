@@ -1,50 +1,19 @@
-import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
-import { API_KEY } from '../secrets';
-
-const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;
-
-async function callGoogleVisionAsync(image) {
-  const body = {
-    requests: [
-      {
-        image: {
-          content: image,
-        },
-        features: [
-          {
-            type: 'DOCUMENT_TEXT_DETECTION',
-          },
-        ],
-      },
-    ],
-  };
-
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  const result = await response.json();
-  console.log('callGoogleVisionAsync -> result', result);
-
-  return result.responses[0].textAnnotations[0].description;
-}
+import * as ImagePicker from "expo-image-picker";
+import React, { useState } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { connect } from "react-redux";
 
 export default function Scanner() {
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState(null);
   const [permissions, setPermissions] = useState(false);
+  const [base64, setBase64] = useState("");
 
   const askPermissionsAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
     if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
+      alert("Permission to access camera roll is required!");
       return;
     } else {
       setPermissions(true);
@@ -58,10 +27,10 @@ export default function Scanner() {
 
     if (!cancelled) {
       setImage(uri);
-      setStatus('Loading...');
+      setStatus("Loading...");
       try {
-        const result = await callGoogleVisionAsync(base64);
-        setStatus(result);
+        this.props.login(base64);
+        setStatus(this.props.receipt);
       } catch (error) {
         setStatus(`Error: ${error.message}`);
       }
@@ -89,10 +58,9 @@ export default function Scanner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-   
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 300,
@@ -103,3 +71,15 @@ const styles = StyleSheet.create({
    
   }
 });
+
+const mapState = (state) => {
+  return { receipt: state.receipt };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    scanReceipt: (base64) => dispatch(scanReceipt(base64)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Scanner);
