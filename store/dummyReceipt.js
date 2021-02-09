@@ -1,4 +1,3 @@
-// TODO: Add to real receipt subreducer
 // action types
 const ASSIGN_USER = `ASSIGN_USER`;
 
@@ -56,13 +55,11 @@ const defaultReceipt = {
   },
 };
 
-// TODO: Add to real receipt subreducer
 //action creator
 export const assignUser = (userId, itemIds) => {
   return { type: ASSIGN_USER, userId, itemIds };
 };
 
-// TODO: Add to real receipt subreducer
 // helper function
 const assignUserReducer = (state, userId, itemIds) => {
   const updatedItems = state.items.map((item) => {
@@ -84,7 +81,6 @@ const assignUserReducer = (state, userId, itemIds) => {
  */
 export default function (state = defaultReceipt, action) {
   switch (action.type) {
-    // TODO: Add assign user case to real receipt subreducer
     case ASSIGN_USER:
       return assignUserReducer(state, action.userId, action.itemIds);
     default:

@@ -16,8 +16,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview"
 import { ScrollView } from "react-native-gesture-handler";
 import { Card, Overlay, Button } from "react-native-elements";
 import { searchUsersThunk } from "../store/users";
-// TODO: switch import to real receipt e.g. 'store/receipt'
-import { assignUser } from "../store/dummyReceipt";
+import { assignUser } from "../store/receipt";
 import { AWS_URL } from "../secrets";
 
 // prevents useEffect from running on component mount
@@ -100,8 +99,7 @@ export function UsersList(props) {
       }, []);
       // fire thunk to assign items
       postAssignment(assignmentPostBody);
-      // TODO: navigate to home page with confirmation screen
-      navigation.navigate("SuccessPage");
+      navigation.navigate("UserHome");
     } else {
       // not done assigning, go to receipt items list
       navigation.navigate("ReceiptItems");
@@ -181,9 +179,12 @@ export function UsersList(props) {
   );
 }
 
-// TODO: swap dummyReceipt for real receipt
 const mapState = (state) => {
-  return { users: state.users, items: state.dummyReceipt.items };
+  return {
+    users: state.users,
+    items: state.receipt.items,
+    receiptId: state.receipt.id,
+  };
 };
 
 const mapDispatch = (dispatch) => {
