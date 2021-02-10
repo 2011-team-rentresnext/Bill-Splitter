@@ -1,6 +1,6 @@
-import React, { Component, useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { connect } from "react-redux";
+import React, {Component, useState, useEffect, useRef} from 'react'
+import axios from 'axios'
+import {connect} from 'react-redux'
 import {
   Text,
   TextInput,
@@ -9,45 +9,57 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-} from "react-native";
-import pie from "../assets/pie.jpg";
-import styles from "./styles";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
-import { ScrollView } from "react-native-gesture-handler";
-import { Card, Overlay, Button } from "react-native-elements";
-import { searchUsersThunk } from "../store/users";
-import { assignUser } from "../store/receipt";
-import { AWS_URL } from "../secrets";
+} from 'react-native'
+import pie from '../assets/pie.jpg'
+import styles from './styles'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import {ScrollView} from 'react-native-gesture-handler'
+import {Card, Overlay, Button} from 'react-native-elements'
+import {searchUsersThunk, clearUsers} from '../store/users'
+import {assignUser} from '../store/receipt'
+import {addMe} from '../store/users'
+import {AWS_URL} from '../secrets'
 
 // prevents useEffect from running on component mount
 const useDidUpdateEffect = (fn, inputs) => {
-  const didMountRef = useRef(false);
+  const didMountRef = useRef(false)
 
   useEffect(() => {
-    if (didMountRef.current) fn();
-    else didMountRef.current = true;
-  }, inputs);
-};
+    if (didMountRef.current) fn()
+    else didMountRef.current = true
+  }, inputs)
+}
 
 export function UsersList(props) {
-  const { selectedItems } = props.route.params;
-  const { navigation, users, searchUsers, items } = props;
-  const [visible, setVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState({});
-  let textInput;
+  const {selectedItems} = props.route.params
+  const {navigation, users, searchUsers, items} = props
+  const [visible, setVisible] = useState(false)
+  const [selectedUser, setSelectedUser] = useState({})
+  let textInput
+
+  useEffect(() => {
+    if (!props.users.length) {
+      props.addMyself(props.me)
+    }
+  }, [])
 
   const toggleOverlay = () => {
-    setVisible(!visible);
-  };
+    setVisible(!visible)
+  }
 
   const handleTextChange = (searchTerm) => {
-    searchUsers(searchTerm);
-  };
+    if (searchTerm === '') {
+      props.clearUsers()
+      props.addMyself()
+    } else {
+      searchUsers(searchTerm)
+    }
+  }
 
   const handleSelectionPress = (user) => {
-    setSelectedUser(user);
-    setVisible(true);
-  };
+    setSelectedUser(user)
+    setVisible(true)
+  }
 
   // runs when items are updated via assignment
   useDidUpdateEffect(() => {
@@ -56,9 +68,9 @@ export function UsersList(props) {
         await axios.post(
           `${AWS_URL}receipts/${props.receiptId}/assign`,
           requestBody
-        );
+        )
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
     // check if all items are assigned
@@ -66,23 +78,23 @@ export function UsersList(props) {
       // all the items are assigned
       // build request body
       let assignmentPostBody = items.reduce((requestBody, currentItem) => {
-        let foundUserFlag = false;
+        let foundUserFlag = false
         requestBody = requestBody.map((userAssignment) => {
           //check if user already has items in the request body
           // if so, add item to their existing array of items: assignedItems
           if (userAssignment.userId === currentItem.assignedUser) {
-            foundUserFlag = true;
+            foundUserFlag = true
             return {
               ...userAssignment,
               assignedItems: [
                 ...userAssignment.assignedItems,
-                { itemId: currentItem.id, price: currentItem.price },
+                {itemId: currentItem.id, price: currentItem.price},
               ],
-            };
+            }
           } else {
-            return userAssignment;
+            return userAssignment
           }
-        });
+        })
         // if user was not already in request body, add an entry for the user
         if (!foundUserFlag) {
           requestBody.push({
@@ -93,25 +105,27 @@ export function UsersList(props) {
                 price: currentItem.price,
               },
             ],
-          });
+          })
         }
-        return requestBody;
-      }, []);
+        return requestBody
+      }, [])
       // fire thunk to assign items
-      postAssignment(assignmentPostBody);
-      navigation.navigate("UserHome");
+      postAssignment(assignmentPostBody)
+      navigation.navigate('UserHome')
     } else {
       // not done assigning, go to receipt items list
-      navigation.navigate("ReceiptItems");
+      navigation.navigate('ReceiptItems')
     }
-  }, items);
+  }, items)
 
   const handleUserConfirmation = () => {
-    const itemIds = selectedItems.map((item) => item.id);
-    props.confirmUser(selectedUser.id, itemIds);
-    setVisible(false);
-    textInput.clear();
-  };
+    const itemIds = selectedItems.map((item) => item.id)
+    props.confirmUser(selectedUser.id, itemIds)
+    setVisible(false)
+    textInput.clear()
+    props.clearUsers()
+    // clear users
+  }
 
   return (
     <KeyboardAwareScrollView>
@@ -120,39 +134,39 @@ export function UsersList(props) {
           <Text style={styles.texttitle}>Select Slicer</Text>
           <TextInput
             ref={(input) => {
-              textInput = input;
+              textInput = input
             }}
             style={styles.credentialinput}
             onChangeText={handleTextChange}
           />
 
-          <View style={{ width: "100%" }}>
+          <View style={{width: '100%'}}>
             <ScrollView>
               {users.map((user) => {
-                const name = `${user.firstName} ${user.lastName}`;
+                const name = `${user.firstName} ${user.lastName}`
                 return (
                   <TouchableOpacity
-                    key={user.id}
+                    key={user.email}
                     onPress={(e) => {
-                      handleSelectionPress(user);
+                      handleSelectionPress(user)
                     }}
                   >
-                    <View style={{ width: "100%" }}>
-                      <Card title={name} style={{ width: "100%" }}>
+                    <View style={{width: '100%'}}>
+                      <Card title={name} style={{width: '100%'}}>
                         <View style={styles.userCard}>
-                          <Text style={{ fontSize: 25 }}>{name} </Text>
-                          <Text style={{ flexWrap: "wrap" }}>{user.email}</Text>
+                          <Text style={{fontSize: 25}}>{name} </Text>
+                          <Text style={{flexWrap: 'wrap'}}>{user.email}</Text>
                         </View>
                       </Card>
                     </View>
                   </TouchableOpacity>
-                );
+                )
               })}
             </ScrollView>
           </View>
           <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
             <Card>
-              <Card.Title style={{ fontSize: 25 }}>
+              <Card.Title style={{fontSize: 25}}>
                 {`${selectedUser.firstName} ${selectedUser.lastName}`}
               </Card.Title>
               <Card.Divider />
@@ -161,14 +175,14 @@ export function UsersList(props) {
                   <View
                     key={item.id}
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
                     }}
                   >
-                    <Text style={{ marginBottom: 20 }}>{`${item.name}`}</Text>
+                    <Text style={{marginBottom: 20}}>{`${item.name}`}</Text>
                     <Text>{`${item.price}`}</Text>
                   </View>
-                );
+                )
               })}
               <Button onPress={handleUserConfirmation} title="Slice"></Button>
             </Card>
@@ -176,24 +190,27 @@ export function UsersList(props) {
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>
-  );
+  )
 }
 
 const mapState = (state) => {
   return {
+    me: state.user,
     users: state.users,
     items: state.receipt.items,
     receiptId: state.receipt.id,
-  };
-};
+  }
+}
 
 const mapDispatch = (dispatch) => {
   return {
     searchUsers: (searchTerm) => dispatch(searchUsersThunk(searchTerm)),
+    addMyself: (me) => dispatch(addMe(me)),
+    clearUsers: () => dispatch(clearUsers()),
     confirmUser: (userId, itemIds) => {
-      dispatch(assignUser(userId, itemIds));
+      dispatch(assignUser(userId, itemIds))
     },
-  };
-};
+  }
+}
 
-export default connect(mapState, mapDispatch)(UsersList);
+export default connect(mapState, mapDispatch)(UsersList)

@@ -36,7 +36,7 @@ export function ReceiptItems(props) {
   return (
     <View styles={styles.container}>
       <Text style={styles.texttitle}>Slice your receipt!</Text>
-      <Text style={styles.textsubtitle}>Select item(s) for a friend</Text>
+      <Text style={styles.textsubtitle}>Select item(s) to slice</Text>
       {items && items.length ? (
         <View style={{ height: "79%" }}>
           <ScrollView>
