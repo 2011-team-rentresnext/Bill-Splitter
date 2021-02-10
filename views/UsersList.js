@@ -111,7 +111,7 @@ export function UsersList(props) {
       }, [])
       // fire thunk to assign items
       postAssignment(assignmentPostBody)
-      navigation.navigate('UserHome')
+      navigation.navigate('UserHome', {success: true})
     } else {
       // not done assigning, go to receipt items list
       navigation.navigate('ReceiptItems')

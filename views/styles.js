@@ -1,33 +1,37 @@
-import * as React from "react";
-import { StyleSheet } from "react-native";
+import * as React from 'react'
+import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
   },
   image: {
     width: 360,
     height: 250,
     borderRadius: 80,
   },
+  loadingImage: {
+    width: '100%',
+  },
   text: {
     margin: 5,
   },
   texttitle: {
-    color: "#E83535",
-    textAlign: "center",
+    color: '#E83535',
+    textAlign: 'center',
     fontSize: 45,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
   textsubtitle: {
-    color: "#E83535",
-    textAlign: "center",
-    fontSize: 25,
-    fontFamily: "Cochin",
+    color: '#E83535',
+    textAlign: 'center',
+    fontSize: 35,
+    fontFamily: 'Cochin',
+    paddingTop: 3,
   },
   loginbutton: {
     marginLeft: 40,
@@ -36,14 +40,14 @@ export default StyleSheet.create({
     height: 48,
     width: 300,
     borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#E83535",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E83535',
   },
   logintext: {
-    color: "white",
+    color: 'white',
     fontSize: 30,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
 
   //for Login component
@@ -53,9 +57,9 @@ export default StyleSheet.create({
     borderRadius: 80,
   },
   usernamelabel: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 30,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
   credentialinput: {
     marginLeft: 40,
@@ -64,11 +68,11 @@ export default StyleSheet.create({
     height: 48,
     width: 300,
     borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: "#E83535",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#E83535',
     borderWidth: 2,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 25,
   },
 
@@ -76,49 +80,49 @@ export default StyleSheet.create({
   profilebg: {
     width: 400,
     height: 700,
-    resizeMode: "stretch",
+    resizeMode: 'stretch',
   },
 
   // Receipt Items Component
   itemCard: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   userCard: {
-    width: "100%",
-    flexDirection: "column",
-    justifyContent: "space-between",
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 
   selectedtemCardText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    color: "white",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    color: 'white',
   },
 
   selectedItemCard: {
-    backgroundColor: "#E83535",
-    color: "white",
+    backgroundColor: '#E83535',
+    color: 'white',
   },
 
   //UserHome component
   navbar: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
   },
 
   navtextbig: {
-    color: "white",
+    color: 'white',
     fontSize: 35,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
 
   navtextsmall: {
-    color: "white",
+    color: 'white',
     fontSize: 30,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
 
   profileimage: {
@@ -128,33 +132,33 @@ export default StyleSheet.create({
   },
 
   profilenametext: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 35,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
 
   profileemailtext: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 28,
-    fontFamily: "Cochin",
+    fontFamily: 'Cochin',
   },
 
   //FriendsList
   friendsCard: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "baseline",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
   },
 
   friendimg: {
-    width: "50%",
+    width: '50%',
     height: 100,
   },
 
   friendsCardCol: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   image: {
     width: 360,
@@ -165,14 +169,14 @@ export default StyleSheet.create({
     margin: 5,
   },
   texttitle: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 45,
   },
   titleview: {
     flex: 1,
-    alignItems: "center",
-    width: "100%",
-    backgroundColor: "#E83535",
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#E83535',
   },
   loginbutton: {
     marginLeft: 40,
@@ -181,12 +185,12 @@ export default StyleSheet.create({
     height: 48,
     width: 300,
     borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#E83535",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E83535',
   },
   logintext: {
-    color: "white",
+    color: 'white',
     fontSize: 30,
   },
 
@@ -197,7 +201,7 @@ export default StyleSheet.create({
     borderRadius: 80,
   },
   usernamelabel: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 30,
   },
   credentialinput: {
@@ -207,11 +211,11 @@ export default StyleSheet.create({
     height: 48,
     width: 300,
     borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: "#E83535",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#E83535',
     borderWidth: 2,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 25,
   },
 
@@ -219,28 +223,28 @@ export default StyleSheet.create({
   profilebg: {
     width: 400,
     height: 700,
-    resizeMode: "stretch",
+    resizeMode: 'stretch',
   },
 
   //UserHome component
   navbar: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
   },
 
   navtextbig: {
-    color: "white",
+    color: 'white',
     fontSize: 35,
   },
 
   navtextsmall: {
-    color: "white",
+    color: 'white',
     fontSize: 27,
   },
   navtextsettings: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 35,
   },
   profileimage: {
@@ -250,28 +254,28 @@ export default StyleSheet.create({
   },
 
   profilenametext: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 35,
   },
 
   profileemailtext: {
-    color: "#E83535",
+    color: '#E83535',
     fontSize: 28,
   },
 
   //FriendsList
   friendsCard: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "baseline",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'baseline',
   },
   friendsCol: {
-    width: "100%",
+    width: '100%',
   },
 
   scroll: {
-    width: "100%",
+    width: '100%',
   },
 
   friendimg: {
@@ -281,63 +285,63 @@ export default StyleSheet.create({
   },
 
   friendsrow: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderColor: "#E83535",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#E83535',
+    backgroundColor: '#fff',
     borderRadius: 50,
     borderWidth: 3,
     padding: 15,
   },
 
   nameContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "auto",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 'auto',
   },
 
   nameTxt: {
     marginLeft: 15,
-    fontWeight: "600",
-    color: "#222",
+    fontWeight: '600',
+    color: '#222',
     fontSize: 30,
     width: 170,
   },
   mblTxt: {
-    fontWeight: "200",
-    color: "#777",
+    fontWeight: '200',
+    color: '#777',
     fontSize: 13,
   },
   emailContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   emailTxt: {
-    fontWeight: "400",
-    color: "#008B8B",
+    fontWeight: '400',
+    color: '#008B8B',
     fontSize: 20,
     marginLeft: 15,
   },
 
   titleFriendList: {
     flex: 1,
-    color: "white",
+    color: 'white',
     fontSize: 50,
     height: 80,
   },
 
   Card: {
-    shadowColor: "grey", // IOS
-    shadowOffset: { height: 2, width: 5 }, // IOS
+    shadowColor: 'grey', // IOS
+    shadowOffset: {height: 2, width: 5}, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     elevation: 1, // Android
-    height: "auto",
-    width: "auto",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    height: 'auto',
+    width: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 50,
   },
-});
+})
