@@ -17,7 +17,7 @@ import {connect} from 'react-redux'
 import {logout} from '../store'
 
 export function UserHome(props) {
-  const {navigation} = props
+  const {route, navigation} = props
   const {user} = props
   const [visible, setVisible] = useState(false)
 
@@ -25,7 +25,7 @@ export function UserHome(props) {
     if (props.route && props.route.params && props.route.params.success) {
       setVisible(true)
     }
-  }, navigation)
+  }, [route])
 
   const toggleOverlay = () => {
     setVisible(!visible)
