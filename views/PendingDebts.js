@@ -59,8 +59,9 @@ import {getUserDebts} from '../store/debts'
                         }}
                         >
                         <View style={styles.userCard}>
-                            <Text style={{fontSize: 25}}>{debt.info} </Text>
-                            <Text style={{flexWrap: 'wrap'}}>{more.debt.info}</Text>
+                            <Text style={{fontSize: 25}}>{debt.id} </Text>
+                            <Text style={{flexWrap: 'wrap'}}>{debt.amountOwed}</Text>
+
                         </View>
                         </Card>
                     </View>
