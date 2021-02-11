@@ -1,0 +1,73 @@
+import React, { Component } from "react";
+import {
+  Text,
+  View,
+  Image,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Keyboard,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
+import styles from "./styles";
+
+
+export default class PendingDebts extends Component {
+  constructor() {
+    super();
+    this.state = {
+      debts: [],
+    };
+  }
+
+  render() {
+    const { debts } = this.props
+    return (
+        <View>
+
+            {!debts ? 
+                (<View>
+                    <Text>
+                    No pending debts  
+                    </Text>
+                </View>):
+
+                <ScrollView>
+                {debts.map((debt) => {
+       
+                return (
+                    <TouchableOpacity
+                    key={user.email}
+                    onPress={(e) => {
+                        handleSelectionPress(user)
+                    }}
+                    >
+                    <View style={{width: '100%'}}>
+                        <Card
+                        title={'title goes here'}
+                        containerStyle={{
+                            borderRadius: 15,
+                            backgroundColor: '#f5f5f5',
+                            shadowColor: '#e3e3e3',
+                            shadowOffset: {width: 2, height: 2},
+                            shadowOpacity: 0.8,
+                            shadowRadius: 2,
+                            elevation: 5,
+                        }}
+                        >
+                        <View style={styles.userCard}>
+                            <Text style={{fontSize: 25}}>{debt.info} </Text>
+                            <Text style={{flexWrap: 'wrap'}}>{more.debt.info}</Text>
+                        </View>
+                        </Card>
+                    </View>
+                    </TouchableOpacity>
+                )
+                })}
+                </ScrollView>
+            }
+
+        </View>)
+    }
+
+}

@@ -15,6 +15,7 @@ import {
   ReceiptItems,
   SuccessPage,
   LoadingPage,
+  PendingDebts
 } from './views'
 import {Provider} from 'react-redux'
 import store from './store'
@@ -92,6 +93,15 @@ export default function App() {
               title: 'Friends',
             }}
           />
+
+          <Stack.Screen  
+            name="PendingDebts" 
+            component={PendingDebts} 
+            options={{
+              title: 'Select Pending',
+            }}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
