@@ -8,16 +8,19 @@ import {
   Keyboard,
   FlatList,
   SafeAreaView,
+  ScrollView
 } from "react-native";
 import styles from "./styles";
+import { connect } from 'react-redux';
+import {getUserDebts} from '../store/debts'
 
-
-export default class PendingDebts extends Component {
+ class PendingDebts extends Component {
   constructor() {
     super();
-    this.state = {
-      debts: [],
-    };
+  }
+
+  componentDidMount(){
+    this.props.getDebt(this.props.user.id)
   }
 
   render() {
@@ -25,14 +28,14 @@ export default class PendingDebts extends Component {
     return (
         <View>
 
-            {!debts ? 
+            {(debts.length === 0) ? 
                 (<View>
                     <Text>
                     No pending debts  
                     </Text>
                 </View>):
 
-                <ScrollView>
+                (<ScrollView>
                 {debts.map((debt) => {
        
                 return (
@@ -64,10 +67,26 @@ export default class PendingDebts extends Component {
                     </TouchableOpacity>
                 )
                 })}
-                </ScrollView>
+                </ScrollView>)
             }
 
         </View>)
     }
 
 }
+
+
+const mapState = (state) => {
+    return { 
+        user: state.user,
+        debts: state.debts
+      };
+} 
+
+const mapDispatch = (dispatch) => {
+    return {
+        getDebt: (userId) => dispatch(getUserDebts(userId))
+    };
+  };
+
+  export default connect(mapState, mapDispatch)(PendingDebts)
