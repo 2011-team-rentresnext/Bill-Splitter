@@ -1,44 +1,29 @@
 import axios from 'axios'
 import {AWS_URL} from '../secrets.js'
 
-const defaultReceipt = {
-  items: [],
-}
+const defaultReceipts = []
 
 /**
  * ACTION TYPES
  */
-const ASSIGN_USER = `ASSIGN_USER`
-const MAKE_RECEIPT = 'MAKE_RECEIPT'
-const CLEAR_RECEIPT = 'CLEAR_RECEIPT'
+const SET_RECEIPTS = `SET_RECEIPTS`
 
 /**
  * ACTION CREATORS
  */
-export const assignUser = (userId, itemIds) => {
-  return {type: ASSIGN_USER, userId, itemIds}
-}
-
-export const clearReceipt = () => {
-  return {type: CLEAR_RECEIPT}
-}
-
-const makeReceipt = (receipt) => {
-  return {
-    type: MAKE_RECEIPT,
-    receipt,
-  }
+export const setReceipts = (receipts) => {
+  return {type: SET_RECEIPTS, receipts}
 }
 
 /**
  * THUNK CREATORS
  */
 
-export const scanReceipt = (base64) => {
+export const fetchReceipts = (userId) => {
   return async (dispatch) => {
     try {
       console.log('aws url is this! HERE! :  ', AWS_URL + 'receipts')
-      const res = await axios.post(AWS_URL + 'receipts', {base64})
+      const res = await axios.get(AWS_URL + `receipts/${userId}`)
       console.log(res.data.items)
       dispatch(makeReceipt(res.data))
     } catch (err) {
@@ -70,7 +55,7 @@ export default function (receipt = defaultReceipt, action) {
   switch (action.type) {
     case MAKE_RECEIPT:
       return action.receipt
-    case ASSIGN_USER:
+    case SET_RECEIPTS:
       return assignUserReducer(receipt, action.userId, action.itemIds)
     case CLEAR_RECEIPT:
       return defaultReceipt

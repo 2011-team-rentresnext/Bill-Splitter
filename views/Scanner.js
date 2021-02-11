@@ -35,6 +35,7 @@ function Scanner(props) {
       try {
         props.scanReceipt(base64)
         setStatus(props.receipt)
+        props.navigation.navigate('ReceiptItems')
       } catch (error) {
         setStatus(`Error: ${error.message}`)
       }
@@ -83,6 +84,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     scanReceipt: (base64) => dispatch(scanReceipt(base64)),
+    clearReceipt: () => dispatch(clearReceipt()),
   }
 }
 
