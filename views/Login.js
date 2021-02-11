@@ -24,6 +24,8 @@ export function Login(props) {
 
   const handlePress = () => {
     props.login(email, password)
+    emailInput.clear()
+    passwordInput.clear()
   }
 
   useEffect(() => {

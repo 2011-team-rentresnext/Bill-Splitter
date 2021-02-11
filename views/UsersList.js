@@ -20,6 +20,7 @@ import {searchUsersThunk, clearUsers} from '../store/users'
 import {assignUser} from '../store/receipt'
 import {addMe} from '../store/users'
 import {AWS_URL} from '../secrets'
+import setDollar from '../util/setDollar'
 
 // prevents useEffect from running on component mount
 const useDidUpdateEffect = (fn, inputs) => {
@@ -144,7 +145,7 @@ export function UsersList(props) {
         height: '100%',
       }}
     >
-      <Text style={styles.texttitle}>Select Slicer</Text>
+      <Text style={styles.textsubtitle}>Select Slicer</Text>
       <TextInput
         ref={(input) => {
           textInput = input
@@ -205,7 +206,9 @@ export function UsersList(props) {
                 <Text
                   style={{marginBottom: 25, fontSize: 15}}
                 >{`${item.name}`}</Text>
-                <Text style={{fontSize: 15}}>{`${item.price}`}</Text>
+                <Text style={{fontSize: 15}}>{`$${setDollar(
+                  item.price
+                )}`}</Text>
               </View>
             )
           })}

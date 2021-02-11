@@ -280,6 +280,7 @@ export default StyleSheet.create({
   profilenametext: {
     color: '#E83535',
     fontSize: 35,
+    fontFamily: 'Cochin',
   },
 
   profileemailtext: {
