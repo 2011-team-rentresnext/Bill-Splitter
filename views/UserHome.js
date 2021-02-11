@@ -4,15 +4,17 @@ import {Card, Overlay} from 'react-native-elements'
 import styles from './styles'
 import {connect} from 'react-redux'
 import {logout} from '../store'
-import {fetchReceipt} from '../store/receipt'
+import {fetchReceipt, scanReceipt, clearReceipt} from '../store/receipt'
 import {Entypo} from '@expo/vector-icons'
 import {MaterialIcons} from '@expo/vector-icons'
 import SingleReceipt from './SingleReceipt'
+import * as ImagePicker from 'expo-image-picker'
 
-export function UserHome(props) {
+function UserHome(props) {
   const {route, navigation} = props
   const {user} = props
   const [visible, setVisible] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (
@@ -26,6 +28,41 @@ export function UserHome(props) {
       props.getReceipt(props.route.params.receiptId)
     }
   }, [route])
+
+  const takePictureAsync = async () => {
+    let {granted} = await ImagePicker.requestCameraPermissionsAsync()
+    if (!granted) alert('Permission to access camera is required!')
+    const {cancelled, base64} = await ImagePicker.launchCameraAsync({
+      base64: true,
+    })
+    if (!cancelled) {
+      try {
+        props.clearReceipt()
+        props.scanReceipt(base64)
+        props.navigation.navigate('ReceiptItems')
+      } catch (error) {
+        setError(`Error: ${error.message}`)
+        console.log('Error taking picture', error)
+      }
+    }
+  }
+  const selectPictureAsync = async () => {
+    let {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (!granted) alert('Permission to access camera roll is required!')
+    const {cancelled, base64} = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+    })
+    if (!cancelled) {
+      try {
+        props.clearReceipt()
+        props.scanReceipt(base64)
+        props.navigation.navigate('ReceiptItems')
+      } catch (error) {
+        setError(`Error: ${error.message}`)
+        console.log('Error reading an image', error)
+      }
+    }
+  }
 
   const toggleOverlay = () => {
     setVisible(!visible)
@@ -86,7 +123,7 @@ export function UserHome(props) {
         >
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate('Scanner')}
+            onPress={takePictureAsync}
           >
             <Entypo name="camera" size={45} color="black" />
           </TouchableOpacity>
@@ -102,7 +139,10 @@ export function UserHome(props) {
             paddingTop: 2,
           }}
         >
-          <TouchableOpacity style={styles.footerButton}>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={selectPictureAsync}
+          >
             <Entypo name="upload" size={45} color="black" />
           </TouchableOpacity>
         </View>
@@ -140,6 +180,8 @@ const mapDispatch = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
     getReceipt: (receiptId) => dispatch(fetchReceipt(receiptId)),
+    scanReceipt: (base64) => dispatch(scanReceipt(base64)),
+    clearReceipt: () => dispatch(clearReceipt()),
   }
 }
 
