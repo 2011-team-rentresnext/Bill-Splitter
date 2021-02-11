@@ -54,7 +54,7 @@ export function UserHome(props) {
           padding: 10,
         }}
       >
-        <Text style={styles.profilenametext}>Hi, {user.fullName}!</Text>
+        <Text style={styles.profilenametext}>Hi, {user.firstName}!</Text>
         <Text onPress={handlePressLogout} style={{color: 'red', fontSize: 25}}>
           Logout
         </Text>
