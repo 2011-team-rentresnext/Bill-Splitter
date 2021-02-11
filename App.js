@@ -39,14 +39,14 @@ export default function App() {
             },
           }}
         >
-          <Stack.Screen
+          {/* <Stack.Screen
             name="LoadingPage"
             component={LoadingPage}
             options={{
               title: '',
               headerLeft: null,
             }}
-          />
+          /> */}
 
           <Stack.Screen
             name="Home"
@@ -57,7 +57,13 @@ export default function App() {
             }}
           />
 
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              title: '',
+            }}
+          />
 
           <Stack.Screen
             name="UserHome"

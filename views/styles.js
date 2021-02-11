@@ -56,11 +56,13 @@ export default StyleSheet.create({
     width: 350,
     height: 200,
     borderRadius: 80,
+    paddingBottom: 45,
   },
   usernamelabel: {
     color: '#E83535',
     fontSize: 30,
     fontFamily: 'Cochin',
+    paddingTop: 10,
   },
   credentialinput: {
     marginLeft: 40,
@@ -194,7 +196,8 @@ export default StyleSheet.create({
   },
   texttitle: {
     color: '#E83535',
-    fontSize: 45,
+    fontSize: 65,
+    fontFamily: 'Cochin',
   },
   titleview: {
     flex: 1,
@@ -216,6 +219,7 @@ export default StyleSheet.create({
   logintext: {
     color: 'white',
     fontSize: 30,
+    fontFamily: 'Cochin',
   },
 
   //for Login component
@@ -223,10 +227,6 @@ export default StyleSheet.create({
     width: 350,
     height: 200,
     borderRadius: 80,
-  },
-  usernamelabel: {
-    color: '#E83535',
-    fontSize: 30,
   },
   credentialinput: {
     marginLeft: 40,

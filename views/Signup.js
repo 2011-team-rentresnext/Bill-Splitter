@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   TextInput,
@@ -6,95 +6,116 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import styles from './styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { connect } from 'react-redux'
-import { signup } from '../store'
+} from 'react-native'
+import styles from './styles'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import {connect} from 'react-redux'
+import {signup} from '../store'
 
 class Signup extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
-    };
+    }
   }
 
   handlePress = () => {
-    this.props.signup(this.state);
-    this.props.navigation.navigate('UserHome');
-  };
+    this.props.signup(this.state)
+    this.props.navigation.navigate('UserHome')
+  }
 
   render() {
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.container}>
-            <Text style={styles.texttitle}>Slice D'Pie</Text>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'white',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              height: '100%',
+            }}
+          >
+            <Text style={styles.texttitle}>Sliced</Text>
 
-            <Text>{'\n'}</Text>
+            <View>
+              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                <Text style={styles.usernamelabel}>First Name</Text>
+              </View>
+              <TextInput
+                style={styles.credentialinput}
+                onChangeText={(firstName) => this.setState({firstName})}
+              />
+            </View>
 
-            <Text style={styles.usernamelabel}>First Name</Text>
-            <TextInput
-              style={styles.credentialinput}
-              onChangeText={(firstName) => this.setState({ firstName })}
-            />
+            <View>
+              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                <Text style={styles.usernamelabel}>Last Name</Text>
+              </View>
+              <TextInput
+                style={styles.credentialinput}
+                onChangeText={(lastName) => this.setState({lastName})}
+              />
+            </View>
 
-            <Text>{'\n'}</Text>
+            <View>
+              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                <Text style={styles.usernamelabel}>Email</Text>
+              </View>
+              <TextInput
+                style={styles.credentialinput}
+                onChangeText={(email) => this.setState({email})}
+              />
+            </View>
 
-            <Text style={styles.usernamelabel}>Last Name</Text>
-            <TextInput
-              style={styles.credentialinput}
-              onChangeText={(lastName) => this.setState({ lastName })}
-            />
-
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Email</Text>
-            <TextInput
-              style={styles.credentialinput}
-              onChangeText={(email) => this.setState({ email })}
-            />
-
-            {/* //space */}
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Password</Text>
-
-            <TextInput
-              secureTextEntry={true}
-              style={styles.credentialinput}
-              onChangeText={(password) => this.setState({ password })}
-            />
-
-            <Text>{'\n'}</Text>
+            <View>
+              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+                <Text style={styles.usernamelabel}>Password</Text>
+              </View>
+              <TextInput
+                secureTextEntry={true}
+                style={styles.credentialinput}
+                onChangeText={(password) => this.setState({password})}
+              />
+            </View>
 
             <TouchableOpacity
-              style={styles.loginbutton}
+              style={{
+                marginLeft: 40,
+                marginRight: 40,
+                marginTop: 20,
+                height: 48,
+                width: 300,
+                borderRadius: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#E83535',
+                marginBottom: 25,
+              }}
               onPress={this.handlePress}
             >
               <Text style={styles.logintext}>Sign up</Text>
             </TouchableOpacity>
-            
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-    );
+    )
   }
 }
 
 const mapState = (state) => {
-  return { user: state.user };
-};
+  return {user: state.user}
+}
 
 const mapDispatch = (dispatch) => {
-  
   return {
     signup: (newUser) => dispatch(signup(newUser)),
-  };
-};
+  }
+}
 
-export default connect(mapState, mapDispatch)(Signup);
+export default connect(mapState, mapDispatch)(Signup)

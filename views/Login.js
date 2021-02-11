@@ -1,88 +1,128 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react'
 import {
   Text,
   TextInput,
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import pie from '../assets/pie.jpg';
-import styles from './styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { auth } from '../store';
-import { connect } from 'react-redux';
+} from 'react-native'
+import pie from '../assets/pie.jpg'
+import styles from './styles'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import {auth} from '../store'
+import {connect} from 'react-redux'
 
 class Login extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       email: '',
       password: '',
-    };
+    }
   }
 
   handlePress = () => {
-    this.props.login(this.state.email, this.state.password);
-    this.props.navigation.navigate('UserHome');
-  };
+    this.props.login(this.state.email, this.state.password)
+    this.props.navigation.navigate('UserHome')
+  }
 
   render() {
     return (
       <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
-        
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.container}>
-            <Text style={styles.texttitle}>Slice D'Pie</Text>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'white',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              height: '100%',
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  color: '#E83535',
+                  textAlign: 'center',
+                  fontSize: 45,
+                  fontFamily: 'Cochin',
+                  paddingBottom: 15,
+                }}
+              >
+                Sliced
+              </Text>
+            </View>
+            <View>
+              <Image
+                source={pie}
+                style={styles.imagelogin}
+                resizeMode="cover"
+              />
+            </View>
 
-            <Image source={pie} style={styles.imagelogin} resizeMode="cover" />
+            <View style={{alignContent: 'center', flexDirection: 'column'}}>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <Text style={styles.usernamelabel}>Email</Text>
+              </View>
 
-            <Text>
-              {'\n'}
-              {'\n'}
-            </Text>
+              <TextInput
+                style={styles.credentialinput}
+                onChangeText={(email) => this.setState({email})}
+              />
 
-            <Text style={styles.usernamelabel}>email</Text>
-            <TextInput
-              style={styles.credentialinput}
-              onChangeText={(email) => this.setState({ email })}
-            />
-
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Password</Text>
-
-            <TextInput
-              secureTextEntry={true}
-              style={styles.credentialinput}
-              onChangeText={(password) => this.setState({ password })}
-            />
-
-            <Text>{'\n'}</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <Text style={styles.usernamelabel}>Password</Text>
+              </View>
+              <TextInput
+                secureTextEntry={true}
+                style={styles.credentialinput}
+                onChangeText={(password) => this.setState({password})}
+              />
+            </View>
 
             <TouchableOpacity
-              style={styles.loginbutton}
+              style={{
+                marginLeft: 40,
+                marginRight: 40,
+                marginTop: 20,
+                height: 48,
+                width: 300,
+                borderRadius: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#E83535',
+                marginBottom: 20,
+              }}
               onPress={this.handlePress}
             >
-              <Text style={styles.logintext}>Login</Text>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 30,
+                  fontFamily: 'Cochin',
+                }}
+              >
+                Login
+              </Text>
             </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
-      
       </KeyboardAwareScrollView>
-    );
+    )
   }
 }
 
 const mapState = (state) => {
-  return { user: state.user };
-};
+  return {user: state.user}
+}
 
 const mapDispatch = (dispatch) => {
   return {
     login: (email, password) => dispatch(auth(email, password)),
-  };
-};
+  }
+}
 
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapState, mapDispatch)(Login)
