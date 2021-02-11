@@ -13,6 +13,7 @@ import axios from 'axios'
 import styles from './styles'
 import {AWS_URL} from '../secrets'
 import cat3 from '../assets/cat3.gif'
+import setDollar from '../util/setDollar'
 
 export function ReceiptItems(props) {
   // console.log(props.items);
@@ -64,7 +65,9 @@ export function ReceiptItems(props) {
                           <View>
                             <View style={styles.itemCard}>
                               <Text style={{color: 'white'}}>{item.name}</Text>
-                              <Text style={{color: 'white'}}>{item.price}</Text>
+                              <Text style={{color: 'white'}}>
+                                ${setDollar(item.price)}
+                              </Text>
                             </View>
                           </View>
                         </Card>
@@ -103,7 +106,7 @@ export function ReceiptItems(props) {
                             <View>
                               <View style={styles.itemCard}>
                                 <Text>{item.name}</Text>
-                                <Text>{item.price}</Text>
+                                <Text>${setDollar(item.price)}</Text>
                               </View>
                             </View>
                           </Card>
