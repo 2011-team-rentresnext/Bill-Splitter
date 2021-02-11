@@ -58,7 +58,7 @@ export const fetchReceipt = (receiptId) => {
   return async (dispatch) => {
     try {
       const res = await axios.get(AWS_URL + 'receipts/' + receiptId)
-      dispatch(makeReceipt(res.data))
+      dispatch(getReceipt(res.data))
     } catch (err) {
       console.error(err)
     }

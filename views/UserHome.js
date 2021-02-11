@@ -7,6 +7,7 @@ import {logout} from '../store'
 import {fetchReceipt} from '../store/receipt'
 import {Entypo} from '@expo/vector-icons'
 import {MaterialIcons} from '@expo/vector-icons'
+import SingleReceipt from './SingleReceipt'
 
 export function UserHome(props) {
   const {route, navigation} = props
@@ -117,11 +118,12 @@ export function UserHome(props) {
       </View>
 
       {/* OVERLAY */}
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-        <Card>
-          <Text>Success!</Text>
-          <Text>{JSON.stringify(props.receipt)}</Text>r
-        </Card>
+      <Overlay
+        overlayStyle={{height: '60%'}}
+        isVisible={visible}
+        onBackdropPress={toggleOverlay}
+      >
+        <SingleReceipt success />
       </Overlay>
     </View>
   )
