@@ -46,7 +46,7 @@ export function ReceiptItems(props) {
         <View styles={styles.container}>
           <Text style={styles.textsubtitle}>Select item(s) to slice</Text>
           {items && items.length ? (
-            <View style={{height: '88%', backgroundColor: 'white'}}>
+            <View style={{height: '85%', backgroundColor: 'white'}}>
               <ScrollView>
                 <View>
                   {selectedItems.map((item) => {
