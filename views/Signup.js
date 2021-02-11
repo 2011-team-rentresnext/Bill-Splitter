@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import {
   Text,
   TextInput,
@@ -12,100 +12,118 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import {connect} from 'react-redux'
 import {signup} from '../store'
 
-class Signup extends Component {
-  constructor() {
-    super()
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    }
-  }
+function Signup(props) {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  let lastNameRef
+  let emailRef
+  let passwordRef
 
   handlePress = () => {
-    this.props.signup(this.state)
-    this.props.navigation.navigate('UserHome')
+    props.signup({firstName, lastName, email, password})
+    props.navigation.navigate('UserHome')
   }
-
-  render() {
-    return (
-      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'white',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              height: '100%',
-            }}
-          >
-            <Text style={styles.texttitle}>Sliced</Text>
-
-            <View>
-              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                <Text style={styles.usernamelabel}>First Name</Text>
-              </View>
-              <TextInput
-                style={styles.credentialinput}
-                onChangeText={(firstName) => this.setState({firstName})}
-              />
+  return (
+    <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            height: '100%',
+          }}
+        >
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>First Name</Text>
             </View>
-
-            <View>
-              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                <Text style={styles.usernamelabel}>Last Name</Text>
-              </View>
-              <TextInput
-                style={styles.credentialinput}
-                onChangeText={(lastName) => this.setState({lastName})}
-              />
-            </View>
-
-            <View>
-              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                <Text style={styles.usernamelabel}>Email</Text>
-              </View>
-              <TextInput
-                style={styles.credentialinput}
-                onChangeText={(email) => this.setState({email})}
-              />
-            </View>
-
-            <View>
-              <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-                <Text style={styles.usernamelabel}>Password</Text>
-              </View>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.credentialinput}
-                onChangeText={(password) => this.setState({password})}
-              />
-            </View>
-
-            <TouchableOpacity
-              style={{
-                marginLeft: 40,
-                marginRight: 40,
-                marginTop: 20,
-                height: 48,
-                width: 300,
-                borderRadius: 15,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#E83535',
-                marginBottom: 25,
+            <TextInput
+              style={styles.credentialinput}
+              onChangeText={(firstName) => setFirstName(firstName)}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                lastNameRef.focus()
               }}
-              onPress={this.handlePress}
-            >
-              <Text style={styles.logintext}>Sign up</Text>
-            </TouchableOpacity>
+              blurOnSubmit={false}
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
-    )
-  }
+
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>Last Name</Text>
+            </View>
+            <TextInput
+              returnKeyType="next"
+              style={styles.credentialinput}
+              onChangeText={(lastName) => setLastName(lastName)}
+              ref={(input) => {
+                lastNameRef = input
+              }}
+              onSubmitEditing={() => {
+                emailRef.focus()
+              }}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>Email</Text>
+            </View>
+            <TextInput
+              returnKeyType="next"
+              style={styles.credentialinput}
+              onChangeText={(email) => setEmail(email)}
+              ref={(input) => {
+                emailRef = input
+              }}
+              onSubmitEditing={() => {
+                passwordRef.focus()
+              }}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>Password</Text>
+            </View>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.credentialinput}
+              onChangeText={(password) => setPassword(password)}
+              ref={(input) => {
+                passwordRef = input
+              }}
+              onSubmitEditing={handlePress}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={{
+              marginLeft: 40,
+              marginRight: 40,
+              marginTop: 20,
+              height: 48,
+              width: 300,
+              borderRadius: 15,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#E83535',
+              marginBottom: 25,
+            }}
+            onPress={handlePress}
+          >
+            <Text style={styles.logintext}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
+  )
 }
 
 const mapState = (state) => {

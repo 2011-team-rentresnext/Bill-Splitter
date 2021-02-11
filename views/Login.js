@@ -52,19 +52,6 @@ export function Login(props) {
           }}
         >
           <View>
-            <Text
-              style={{
-                color: '#E83535',
-                textAlign: 'center',
-                fontSize: 45,
-                fontFamily: 'Cochin',
-                paddingBottom: 15,
-              }}
-            >
-              Sliced
-            </Text>
-          </View>
-          <View>
             <Image source={pie} style={styles.imagelogin} resizeMode="cover" />
           </View>
 
@@ -83,6 +70,11 @@ export function Login(props) {
               ref={(input) => {
                 emailInput = input
               }}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordInput.focus()
+              }}
+              blurOnSubmit={false}
             />
 
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -95,6 +87,7 @@ export function Login(props) {
               ref={(input) => {
                 passwordInput = input
               }}
+              onSubmitEditing={handlePress}
             />
           </View>
 
