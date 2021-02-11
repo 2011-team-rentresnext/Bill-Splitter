@@ -1,11 +1,8 @@
-import * as React from "react";
-import "react-native-gesture-handler";
-import { StyleSheet, Button } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import {
-  createStackNavigator,
-  HeaderBackButton,
-} from "@react-navigation/stack";
+import * as React from 'react'
+import 'react-native-gesture-handler'
+import {StyleSheet, Button} from 'react-native'
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack'
 import {
   Login,
   Signup,
@@ -18,11 +15,11 @@ import {
   ReceiptItems,
   SuccessPage,
   LoadingPage,
-} from "./views";
-import { Provider } from "react-redux";
-import store from "./store";
+} from './views'
+import {Provider} from 'react-redux'
+import store from './store'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 export default function App() {
   return (
@@ -31,22 +28,30 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             gestureEnabled: false,
-            headerTitleAlign: "center",
+            headerTitleAlign: 'center',
             headerStyle: {
-              backgroundColor: "#E83535",
+              backgroundColor: '#E83535',
             },
-            headerTintColor: "#fff",
+            headerTintColor: '#fff',
             headerTitleStyle: {
-              fontWeight: "bold",
+              fontWeight: 'bold',
               fontSize: 25,
             },
           }}
         >
           <Stack.Screen
+            name="UserHome"
+            component={UserHome}
+            options={{
+              title: 'Home',
+              headerLeft: null,
+            }}
+          />
+          <Stack.Screen
             name="LoadingPage"
             component={LoadingPage}
             options={{
-              title: "",
+              title: '',
               headerLeft: null,
             }}
           />
@@ -55,7 +60,7 @@ export default function App() {
             name="Home"
             component={Home}
             options={{
-              title: "",
+              title: '',
               headerLeft: null,
             }}
           />
@@ -66,16 +71,7 @@ export default function App() {
             name="Signup"
             component={Signup}
             options={{
-              title: "",
-            }}
-          />
-
-          <Stack.Screen
-            name="UserHome"
-            component={UserHome}
-            options={{
-              title: "Home",
-              headerLeft: null,
+              title: '',
             }}
           />
 
@@ -92,21 +88,21 @@ export default function App() {
             name="FriendsList"
             component={FriendsList}
             options={{
-              title: "Friends",
+              title: 'Friends',
             }}
           />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     width: 300,
@@ -115,4 +111,4 @@ const styles = StyleSheet.create({
   text: {
     margin: 5,
   },
-});
+})
