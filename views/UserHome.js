@@ -16,6 +16,7 @@ import profile from '../assets/profile.png'
 import {connect} from 'react-redux'
 import {logout} from '../store'
 
+
 export function UserHome(props) {
   const {route, navigation} = props
   const {user} = props
@@ -37,7 +38,7 @@ export function UserHome(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView scrollEnabled={false}>
       <ImageBackground source={profile} style={styles.container}>
         <View style={styles.navbar}>
           <Text
@@ -114,7 +115,8 @@ export function UserHome(props) {
       <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
         <Text>Success!</Text>
       </Overlay>
-    </View>
+   
+    </KeyboardAwareScrollView>
   )
 }
 

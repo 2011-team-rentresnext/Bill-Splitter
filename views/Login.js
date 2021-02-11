@@ -25,7 +25,16 @@ class Login extends Component {
 
   handlePress = () => {
     this.props.login(this.state.email, this.state.password);
-    this.props.navigation.navigate('UserHome');
+    
+    setTimeout(()=>{
+    if(this.props.error) {
+      alert('Wrong Email or Password. Please Try Again.');
+      
+    }else{
+      this.props.navigation.navigate('UserHome');
+    }
+  },500)
+    
   };
 
   render() {
@@ -76,7 +85,10 @@ class Login extends Component {
 }
 
 const mapState = (state) => {
-  return { user: state.user };
+  return { 
+    user: state.user,
+    error: state.user.error
+  };
 };
 
 const mapDispatch = (dispatch) => {
