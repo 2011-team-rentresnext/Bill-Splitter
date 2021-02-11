@@ -91,10 +91,7 @@ function UserHome(props) {
           padding: 10,
         }}
       >
-        <Text style={styles.profilenametext}>Hi, {user.firstName}!</Text>
-        <Text onPress={handlePressLogout} style={{color: 'red', fontSize: 25}}>
-          Logout
-        </Text>
+        <Text style={styles.profilenametext}>Welcome, {user.firstName}!</Text>
       </View>
 
       {/* MAIN BODY */}
