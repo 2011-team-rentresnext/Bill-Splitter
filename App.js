@@ -40,14 +40,6 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name="UserHome"
-            component={UserHome}
-            options={{
-              title: 'Home',
-              headerLeft: null,
-            }}
-          />
-          <Stack.Screen
             name="LoadingPage"
             component={LoadingPage}
             options={{
@@ -66,6 +58,15 @@ export default function App() {
           />
 
           <Stack.Screen name="Login" component={Login} />
+
+          <Stack.Screen
+            name="UserHome"
+            component={UserHome}
+            options={{
+              title: 'Home',
+              headerLeft: null,
+            }}
+          />
 
           <Stack.Screen
             name="Signup"
