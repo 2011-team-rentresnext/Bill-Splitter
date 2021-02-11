@@ -1,5 +1,11 @@
 import React, {Component, useState, useEffect} from 'react'
-import {View, Text, TouchableOpacity, Image} from 'react-native'
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+} from 'react-native'
 import {ScrollView} from 'react-native-gesture-handler'
 import {Card, BottomSheet, Button} from 'react-native-elements'
 import {connect} from 'react-redux'
@@ -40,7 +46,7 @@ export function ReceiptItems(props) {
         <View styles={styles.container}>
           <Text style={styles.textsubtitle}>Select item(s) to slice</Text>
           {items && items.length ? (
-            <View style={{height: '79%'}}>
+            <View style={{height: '88%', backgroundColor: 'white'}}>
               <ScrollView>
                 <View>
                   {selectedItems.map((item) => {
@@ -81,7 +87,19 @@ export function ReceiptItems(props) {
                             handleSelectionPress(item)
                           }}
                         >
-                          <Card title={item.name} style={styles.usersCardCol}>
+                          <Card
+                            title={item.name}
+                            containerStyle={{
+                              borderRadius: 15,
+                              backgroundColor: '#f5f5f5',
+                              shadowColor: '#e3e3e3',
+                              shadowOffset: {width: 2, height: 2},
+                              shadowOpacity: 0.8,
+                              shadowRadius: 2,
+                              elevation: 5,
+                            }}
+                            style={styles.usersCardCol}
+                          >
                             <View>
                               <View style={styles.itemCard}>
                                 <Text>{item.name}</Text>
@@ -106,8 +124,8 @@ export function ReceiptItems(props) {
           </View>
         </View>
       ) : (
-        <View styles={styles.container}>
-          <Image source={cat3} style={styles.loadingImage} />
+        <View>
+          <ActivityIndicator style={{paddingTop: 35}} size="large" />
         </View>
       )}
     </View>
