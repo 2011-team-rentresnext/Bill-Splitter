@@ -39,10 +39,10 @@ export function SingleReceipt(props) {
         {receipt.items.map((item) => {
           return (
             <View
-              key={item.itemId}
+              key={item.id ? item.id : item.itemId}
               style={{
                 // flexGrow: 1,
-                margin: 5,
+                marginTop: 8,
                 borderRadius: 15,
                 backgroundColor: '#f5f5f5',
                 shadowColor: '#e3e3e3',
@@ -54,9 +54,6 @@ export function SingleReceipt(props) {
             >
               {item.itemizedTransactions && item.itemizedTransactions.length ? (
                 <View
-                  key={
-                    item.itemId + item.itemizedTransactions[0].debtor.debtorId
-                  }
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
