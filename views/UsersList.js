@@ -11,6 +11,7 @@ import {
   Keyboard,
   Dimensions,
 } from 'react-native'
+import {Divider} from 'react-native-paper'
 import pie from '../assets/pie.jpg'
 import styles from './styles'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
@@ -20,6 +21,7 @@ import {searchUsersThunk, clearUsers} from '../store/users'
 import {assignUser} from '../store/receipt'
 import {addMe} from '../store/users'
 import {AWS_URL} from '../secrets'
+import setDollar from '../util/setDollar'
 
 // prevents useEffect from running on component mount
 const useDidUpdateEffect = (fn, inputs) => {
@@ -39,10 +41,14 @@ export function UsersList(props) {
   let textInput
 
   useEffect(() => {
-    if (!props.users.length) {
+    props.clearUsers()
+    props.addMyself(props.me)
+    const unsubscribe = navigation.addListener('focus', () => {
+      props.clearUsers()
       props.addMyself(props.me)
-    }
-  }, [])
+    })
+    return unsubscribe
+  }, [navigation])
 
   const toggleOverlay = () => {
     setVisible(!visible)
@@ -60,6 +66,12 @@ export function UsersList(props) {
   const handleSelectionPress = (user) => {
     setSelectedUser(user)
     setVisible(true)
+  }
+
+  const getTotal = () => {
+    return selectedItems.reduce((total, item) => {
+      return total + item.price
+    }, 0)
   }
 
   // runs when items are updated via assignment
@@ -144,13 +156,14 @@ export function UsersList(props) {
         height: '100%',
       }}
     >
-      <Text style={styles.texttitle}>Select Slicer</Text>
+      <Text style={styles.textsubtitle}>Assign item(s) to</Text>
       <TextInput
         ref={(input) => {
           textInput = input
         }}
         style={styles.credentialinput}
         onChangeText={handleTextChange}
+        autoCorrect={false}
       />
 
       <View style={{width: '100%'}}>
@@ -178,8 +191,12 @@ export function UsersList(props) {
                     }}
                   >
                     <View style={styles.userCard}>
-                      <Text style={{fontSize: 25}}>{name} </Text>
-                      <Text style={{flexWrap: 'wrap'}}>{user.email}</Text>
+                      <Text style={{fontSize: 25, fontFamily: 'Cochin'}}>
+                        {name}{' '}
+                      </Text>
+                      <Text style={{flexWrap: 'wrap', fontFamily: 'Cochin'}}>
+                        {user.email}
+                      </Text>
                     </View>
                   </Card>
                 </View>
@@ -190,9 +207,23 @@ export function UsersList(props) {
       </View>
       <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
         <View style={{padding: 25, paddingBottom: 1, paddingTop: 15}}>
-          <Text style={{fontSize: 30, paddingBottom: 10}}>
-            {`${selectedUser.firstName} ${selectedUser.lastName}`}
+          <Text style={{fontSize: 30, paddingBottom: 10, fontFamily: 'Cochin'}}>
+            {`Confirm Slice`}
           </Text>
+          <Divider />
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Text
+              style={{
+                fontSize: 22,
+                paddingBottom: 20,
+                paddingTop: 10,
+                fontFamily: 'Cochin',
+              }}
+            >
+              {`${selectedUser.firstName} ${selectedUser.lastName}`}
+            </Text>
+          </View>
+
           {selectedItems.map((item) => {
             return (
               <View
@@ -203,16 +234,45 @@ export function UsersList(props) {
                 }}
               >
                 <Text
-                  style={{marginBottom: 25, fontSize: 15}}
+                  style={{marginBottom: 25, fontSize: 15, fontFamily: 'Cochin'}}
                 >{`${item.name}`}</Text>
-                <Text style={{fontSize: 15}}>{`${item.price}`}</Text>
+                <Text
+                  style={{fontSize: 15, fontFamily: 'Cochin'}}
+                >{`$${setDollar(item.price)}`}</Text>
               </View>
             )
           })}
+          <Divider />
+          <View
+            style={{
+              marginTop: 15,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 25,
+                fontSize: 15,
+                fontFamily: 'Cochin',
+                fontWeight: 'bold',
+              }}
+            >
+              Total
+            </Text>
+            <Text
+              style={{fontSize: 15, fontFamily: 'Cochin', fontWeight: 'bold'}}
+            >{`$${setDollar(getTotal())}`}</Text>
+          </View>
           <Button
-            buttonStyle={{backgroundColor: '#E83535', borderRadius: 15}}
+            buttonStyle={{
+              backgroundColor: '#E83535',
+              borderRadius: 15,
+              marginTop: 10,
+            }}
             onPress={handleUserConfirmation}
-            title="Slice"
+            titleStyle={{fontFamily: 'Cochin', fontSize: 25}}
+            title="Assign"
           ></Button>
         </View>
       </Overlay>

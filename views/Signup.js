@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react'
 import {
   Text,
   TextInput,
@@ -6,95 +6,138 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import styles from './styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { connect } from 'react-redux'
-import { signup } from '../store'
+} from 'react-native'
+import styles from './styles'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import {connect} from 'react-redux'
+import {signup} from '../store'
 
-class Signup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    };
-  }
+function Signup(props) {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  let lastNameRef
+  let emailRef
+  let passwordRef
 
   handlePress = () => {
-    this.props.signup(this.state);
-    this.props.navigation.navigate('UserHome');
-  };
-
-  render() {
-    return (
-      <KeyboardAwareScrollView>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.container}>
-            <Text style={styles.texttitle}>Slice D'Pie</Text>
-
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>First Name</Text>
+    props.signup({firstName, lastName, email, password})
+    props.navigation.navigate('UserHome')
+  }
+  return (
+    <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            height: '100%',
+          }}
+        >
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>First Name</Text>
+            </View>
             <TextInput
+              autoCorrect={false}
               style={styles.credentialinput}
-              onChangeText={(firstName) => this.setState({ firstName })}
+              onChangeText={(firstName) => setFirstName(firstName)}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                lastNameRef.focus()
+              }}
+              blurOnSubmit={false}
             />
+          </View>
 
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Last Name</Text>
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>Last Name</Text>
+            </View>
             <TextInput
+              autoCorrect={false}
+              returnKeyType="next"
               style={styles.credentialinput}
-              onChangeText={(lastName) => this.setState({ lastName })}
+              onChangeText={(lastName) => setLastName(lastName)}
+              ref={(input) => {
+                lastNameRef = input
+              }}
+              onSubmitEditing={() => {
+                emailRef.focus()
+              }}
+              blurOnSubmit={false}
             />
+          </View>
 
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Email</Text>
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>Email</Text>
+            </View>
             <TextInput
+              autoCorrect={false}
+              returnKeyType="next"
               style={styles.credentialinput}
-              onChangeText={(email) => this.setState({ email })}
+              onChangeText={(email) => setEmail(email)}
+              ref={(input) => {
+                emailRef = input
+              }}
+              onSubmitEditing={() => {
+                passwordRef.focus()
+              }}
+              blurOnSubmit={false}
             />
+          </View>
 
-            {/* //space */}
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Password</Text>
-
+          <View>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Text style={styles.usernamelabel}>Password</Text>
+            </View>
             <TextInput
+              autoCorrect={false}
               secureTextEntry={true}
               style={styles.credentialinput}
-              onChangeText={(password) => this.setState({ password })}
+              onChangeText={(password) => setPassword(password)}
+              ref={(input) => {
+                passwordRef = input
+              }}
+              onSubmitEditing={handlePress}
             />
-
-            <Text>{'\n'}</Text>
-
-            <TouchableOpacity
-              style={styles.loginbutton}
-              onPress={this.handlePress}
-            >
-              <Text style={styles.logintext}>Sign up</Text>
-            </TouchableOpacity>
-            
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
-    );
-  }
+
+          <TouchableOpacity
+            style={{
+              marginLeft: 40,
+              marginRight: 40,
+              marginTop: 20,
+              height: 48,
+              width: 300,
+              borderRadius: 15,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#E83535',
+              marginBottom: 25,
+            }}
+            onPress={handlePress}
+          >
+            <Text style={styles.logintext}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
+  )
 }
 
 const mapState = (state) => {
-  return { user: state.user };
-};
+  return {user: state.user}
+}
 
 const mapDispatch = (dispatch) => {
-  
   return {
     signup: (newUser) => dispatch(signup(newUser)),
-  };
-};
+  }
+}
 
-export default connect(mapState, mapDispatch)(Signup);
+export default connect(mapState, mapDispatch)(Signup)
