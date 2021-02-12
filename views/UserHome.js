@@ -94,9 +94,9 @@ function UserHome(props) {
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           width: '100%',
-          padding: 10,
+          padding: 20,
         }}
       >
         <Text style={styles.profilenametext}>Welcome, {user.firstName}!</Text>
