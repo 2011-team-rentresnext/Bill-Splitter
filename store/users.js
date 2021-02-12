@@ -42,7 +42,7 @@ export default function (state = defaultUsers, action) {
       return [
         {
           ...action.user,
-          firstName: 'Assign to myself',
+          firstName: 'Myself',
           lastName: '',
           email: '',
         },
