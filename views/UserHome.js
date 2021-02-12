@@ -22,7 +22,6 @@ function UserHome(props) {
 
   useEffect(() => {
     if (
-      // Optional chaining (?.)
       props.route &&
       props.route.params &&
       props.route.params.success &&
