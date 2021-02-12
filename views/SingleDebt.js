@@ -8,8 +8,14 @@ import setDollar from '../util/setDollar'
 import {AWS_URL} from '../secrets'
 
 export function SingleDebt(props) {
-  const handlePaid = () => {
-    axios.post(`${AWS_URL}receipts/${debt.receipt.id}/settle`)
+  const [completedPayment, setCompletedPayment] = useState(false)
+  const handlePaid = async () => {
+    try {
+      await axios.put(`${AWS_URL}receipts/${debt.receipt.id}/settle`)
+      setCompletedPayment(true)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -92,6 +98,7 @@ export function SingleDebt(props) {
       </ScrollView>
       <View style={{width: '100%'}}>
         <Button
+          disabled={completedPayment}
           buttonStyle={{
             backgroundColor: '#E83535',
             // borderRadius: 15,
@@ -101,7 +108,7 @@ export function SingleDebt(props) {
           style={{width: '100%'}}
           onPress={handlePaid}
           titleStyle={{fontFamily: 'Cochin', fontSize: 35}}
-          title="Paid"
+          title={completedPayment ? 'Paid' : 'Mark as Paid'}
         />
       </View>
     </View>
@@ -129,7 +136,7 @@ const debt = {
     email: 'j@gmail.com',
   },
   receipt: {
-    id: 231,
+    id: 240,
     total: 4650,
     createdAt: '2021-02-12T17:47:03.474Z',
     updatedAt: '2021-02-12T17:47:03.474Z',
