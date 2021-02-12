@@ -72,6 +72,7 @@ export function Login(props) {
             </View>
 
             <TextInput
+              autoCorrect={false}
               style={styles.credentialinput}
               onChangeText={(email) => setEmail(email)}
               ref={(input) => {
@@ -88,6 +89,7 @@ export function Login(props) {
               <Text style={styles.usernamelabel}>Password</Text>
             </View>
             <TextInput
+              autoCorrect={false}
               secureTextEntry={true}
               style={styles.credentialinput}
               onChangeText={(password) => setPassword(password)}

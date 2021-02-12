@@ -152,6 +152,7 @@ export function UsersList(props) {
         }}
         style={styles.credentialinput}
         onChangeText={handleTextChange}
+        autoCorrect={false}
       />
 
       <View style={{width: '100%'}}>
