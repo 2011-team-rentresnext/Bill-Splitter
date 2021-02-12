@@ -165,7 +165,7 @@ export default function App(props) {
               name="ReceiptItems"
               options={{
                 title: '',
-                headerBackTitle: 'Retake Picture',
+                headerBackTitle: 'Retake',
               }}
               component={ReceiptItems}
             />
