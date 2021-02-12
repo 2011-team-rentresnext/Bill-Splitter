@@ -26,6 +26,7 @@ import {Card} from 'react-native-elements'
 
   render() {
     const { debts } = this.props
+
     return (
         <View>
 
@@ -38,7 +39,8 @@ import {Card} from 'react-native-elements'
 
                 (<ScrollView>
                 {debts.map((debt) => {
-       
+                  const creditorFullName = `${debt.creditor.firstName} ${debt.creditor.lastName}`
+
                 return (
                     <TouchableOpacity
                     key={debt.id}
@@ -58,8 +60,8 @@ import {Card} from 'react-native-elements'
                         }}
                         >
                         <View style={styles.userCard}>
-                            <Text style={{fontSize: 25}}>Debt Id:{debt.id} </Text>
-                            <Text style={{flexWrap: 'wrap'}}>Amount Owed: ${debt.amountOwed}</Text>
+                            <Text style={{fontSize: 25}}>Pay to:  {creditorFullName} </Text>
+                            <Text style={{flexWrap: 'wrap'}}>Amount Owed: ${debt.totalDebt}</Text>
 
                         </View>
                         </Card>
