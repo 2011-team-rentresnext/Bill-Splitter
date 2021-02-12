@@ -13,6 +13,7 @@ import {
 import styles from "./styles";
 import { connect } from 'react-redux';
 import {getUserDebts} from '../store/debts'
+import {Card} from 'react-native-elements'
 
  class PendingDebts extends Component {
   constructor() {
@@ -40,10 +41,8 @@ import {getUserDebts} from '../store/debts'
        
                 return (
                     <TouchableOpacity
-                    key={user.email}
-                    onPress={(e) => {
-                        handleSelectionPress(user)
-                    }}
+                    key={debt.id}
+                    
                     >
                     <View style={{width: '100%'}}>
                         <Card
@@ -59,8 +58,8 @@ import {getUserDebts} from '../store/debts'
                         }}
                         >
                         <View style={styles.userCard}>
-                            <Text style={{fontSize: 25}}>{debt.id} </Text>
-                            <Text style={{flexWrap: 'wrap'}}>{debt.amountOwed}</Text>
+                            <Text style={{fontSize: 25}}>Debt Id:{debt.id} </Text>
+                            <Text style={{flexWrap: 'wrap'}}>Amount Owed: ${debt.amountOwed}</Text>
 
                         </View>
                         </Card>
