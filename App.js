@@ -65,6 +65,13 @@ export default function App(props) {
             }}
           >
             <Stack.Screen
+              name="SingleDebt"
+              component={SingleDebt}
+              options={{
+                headerBackTitle: 'Back',
+              }}
+            />
+            <Stack.Screen
               name="Home"
               component={Home}
               options={{
@@ -160,14 +167,6 @@ export default function App(props) {
                 headerBackTitle: 'Retake',
               }}
               component={ReceiptItems}
-            />
-
-            <Stack.Screen
-              name="SingleDebt"
-              component={SingleDebt}
-              options={{
-                headerBackTitle: 'Back',
-              }}
             />
 
             <Stack.Screen name="SuccessPage" component={SuccessPage} />

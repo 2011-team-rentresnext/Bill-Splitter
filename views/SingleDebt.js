@@ -2,10 +2,16 @@ import React, {useState, useEffect} from 'react'
 import {Image, StyleSheet, Text, View, ScrollView} from 'react-native'
 import {Button} from 'react-native-elements'
 import {Divider} from 'react-native-paper'
+import axios from 'axios'
 import styles from './styles'
 import setDollar from '../util/setDollar'
+import {AWS_URL} from '../secrets'
 
 export function SingleDebt(props) {
+  const handlePaid = () => {
+    axios.post(`${AWS_URL}receipts/${debt.receipt.id}/settle`)
+  }
+
   return (
     <View
       style={{
@@ -93,9 +99,9 @@ export function SingleDebt(props) {
             paddingBottom: 15,
           }}
           style={{width: '100%'}}
-          // onPress={handleUserConfirmation}
+          onPress={handlePaid}
           titleStyle={{fontFamily: 'Cochin', fontSize: 35}}
-          title="Settle"
+          title="Paid"
         />
       </View>
     </View>
