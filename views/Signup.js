@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Text,
   TextInput,
@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
 } from 'react-native'
+import {Overlay} from 'react-native-elements'
 import styles from './styles'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
 import {connect} from 'react-redux'
@@ -17,14 +19,24 @@ function Signup(props) {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   let lastNameRef
   let emailRef
   let passwordRef
 
-  handlePress = () => {
+  const handlePress = () => {
     props.signup({firstName, lastName, email, password})
-    props.navigation.navigate('UserHome')
+    setLoading(true)
   }
+
+  useEffect(() => {
+    setLoading(false)
+    if (props.user.id) props.navigation.navigate('UserHome')
+    if (props.user.error) {
+      props.navigation.navigate('Home')
+    }
+  }, [props.user])
+
   return (
     <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -124,6 +136,18 @@ function Signup(props) {
           >
             <Text style={styles.logintext}>Sign up</Text>
           </TouchableOpacity>
+          <Overlay
+            isVisible={loading}
+            overlayStyle={{
+              flex: 1,
+              justifyContent: 'center',
+              flexDirection: 'column',
+              backgroundColor: 'rgba(52, 52, 52, 0.8)',
+            }}
+            fullScreen
+          >
+            <ActivityIndicator />
+          </Overlay>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>
