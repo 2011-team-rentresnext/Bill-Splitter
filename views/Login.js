@@ -1,88 +1,137 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react'
 import {
   Text,
   TextInput,
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native';
-import pie from '../assets/pie.jpg';
-import styles from './styles';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
-import { auth } from '../store';
-import { connect } from 'react-redux';
+} from 'react-native'
+import pie from '../assets/pie.jpg'
+import styles from './styles'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import {auth} from '../store'
+import {connect} from 'react-redux'
 
-class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      email: '',
-      password: '',
-    };
+export function Login(props) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loginFailed, setLoginFailed] = useState(false)
+  let emailInput
+  let passwordInput
+
+  const handlePress = () => {
+    props.login(email, password)
+    emailInput.clear()
+    passwordInput.clear()
   }
 
-  handlePress = () => {
-    this.props.login(this.state.email, this.state.password);
-    this.props.navigation.navigate('UserHome');
-  };
+  useEffect(() => {
+    if (props.user.id) props.navigation.navigate('UserHome')
+    if (props.user.error) {
+      setLoginFailed(true)
+      emailInput.clear()
+      passwordInput.clear()
+    }
+  }, [props.user])
 
-  render() {
-    return (
-      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
-        
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.container}>
-            <Text style={styles.texttitle}>Slice D'Pie</Text>
+  useEffect(() => {
+    setLoginFailed(false)
+  }, [])
 
+  return (
+    <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            height: '100%',
+          }}
+        >
+          <View>
             <Image source={pie} style={styles.imagelogin} resizeMode="cover" />
+          </View>
 
-            <Text>
-              {'\n'}
-              {'\n'}
-            </Text>
+          {loginFailed ? (
+            <Text>Sorry, unable to login with those credentials</Text>
+          ) : null}
 
-            <Text style={styles.usernamelabel}>email</Text>
+          <View style={{alignContent: 'center', flexDirection: 'column'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Text style={styles.usernamelabel}>Email</Text>
+            </View>
+
             <TextInput
               style={styles.credentialinput}
-              onChangeText={(email) => this.setState({ email })}
+              onChangeText={(email) => setEmail(email)}
+              ref={(input) => {
+                emailInput = input
+              }}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordInput.focus()
+              }}
+              blurOnSubmit={false}
             />
 
-            <Text>{'\n'}</Text>
-
-            <Text style={styles.usernamelabel}>Password</Text>
-
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Text style={styles.usernamelabel}>Password</Text>
+            </View>
             <TextInput
               secureTextEntry={true}
               style={styles.credentialinput}
-              onChangeText={(password) => this.setState({ password })}
+              onChangeText={(password) => setPassword(password)}
+              ref={(input) => {
+                passwordInput = input
+              }}
+              onSubmitEditing={handlePress}
             />
-
-            <Text>{'\n'}</Text>
-
-            <TouchableOpacity
-              style={styles.loginbutton}
-              onPress={this.handlePress}
-            >
-              <Text style={styles.logintext}>Login</Text>
-            </TouchableOpacity>
           </View>
-        </TouchableWithoutFeedback>
-      
-      </KeyboardAwareScrollView>
-    );
-  }
+
+          <TouchableOpacity
+            style={{
+              marginLeft: 40,
+              marginRight: 40,
+              marginTop: 20,
+              height: 48,
+              width: 300,
+              borderRadius: 15,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#E83535',
+              marginBottom: 20,
+            }}
+            onPress={handlePress}
+          >
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 30,
+                fontFamily: 'Cochin',
+              }}
+            >
+              Login
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
+  )
 }
 
 const mapState = (state) => {
-  return { user: state.user };
-};
+  return {user: state.user}
+}
 
 const mapDispatch = (dispatch) => {
   return {
     login: (email, password) => dispatch(auth(email, password)),
-  };
-};
+  }
+}
 
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapState, mapDispatch)(Login)

@@ -1,31 +1,68 @@
-import React, {Component, useState, useEffect} from 'react'
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native'
+import React, {useState, useEffect} from 'react'
+import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native'
 import {Card, Overlay} from 'react-native-elements'
 import styles from './styles'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-import {ImageBackground} from 'react-native'
-import pic from '../assets/HandsomeSquidward.png'
-import profile from '../assets/profile.png'
 import {connect} from 'react-redux'
 import {logout} from '../store'
+import {fetchReceipt, scanReceipt, clearReceipt} from '../store/receipt'
+import {Entypo} from '@expo/vector-icons'
+import {MaterialIcons} from '@expo/vector-icons'
+import SingleReceipt from './SingleReceipt'
+import * as ImagePicker from 'expo-image-picker'
 
-export function UserHome(props) {
+function UserHome(props) {
   const {route, navigation} = props
   const {user} = props
   const [visible, setVisible] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (props.route && props.route.params && props.route.params.success) {
+    if (
+      props.route &&
+      props.route.params &&
+      props.route.params.success &&
+      props.route.params.receiptId
+    ) {
       setVisible(true)
+      console.log('THE RECEIPT ID IS : ', props.route.params.receiptId)
+      props.getReceipt(props.route.params.receiptId)
     }
   }, [route])
+
+  const takePictureAsync = async () => {
+    let {granted} = await ImagePicker.requestCameraPermissionsAsync()
+    if (!granted) alert('Permission to access camera is required!')
+    const {cancelled, base64} = await ImagePicker.launchCameraAsync({
+      base64: true,
+    })
+    if (!cancelled) {
+      try {
+        props.clearReceipt()
+        props.scanReceipt(base64)
+        props.navigation.navigate('ReceiptItems')
+      } catch (error) {
+        setError(`Error: ${error.message}`)
+        console.log('Error taking picture', error)
+      }
+    }
+  }
+  const selectPictureAsync = async () => {
+    let {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (!granted) alert('Permission to access camera roll is required!')
+    const {cancelled, base64} = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+    })
+    if (!cancelled) {
+      try {
+        props.clearReceipt()
+        props.scanReceipt(base64)
+        props.navigation.navigate('ReceiptItems')
+      } catch (error) {
+        setError(`Error: ${error.message}`)
+        console.log('Error reading an image', error)
+      }
+    }
+  }
 
   const toggleOverlay = () => {
     setVisible(!visible)
@@ -37,82 +74,93 @@ export function UserHome(props) {
   }
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={profile} style={styles.container}>
-        <View style={styles.navbar}>
-          <Text
-            style={styles.navtextsmall}
-            onPress={() => alert(`Settings component coming soon`)}
-          >
-            Settings{' '}
-          </Text>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        height: '100%',
+      }}
+    >
+      {/* HEADER */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '100%',
+          padding: 10,
+        }}
+      >
+        <Text style={styles.profilenametext}>Welcome, {user.firstName}!</Text>
+      </View>
 
-          <Text onPress={handlePressLogout} style={styles.navtextsmall}>
-            Logout
-          </Text>
-        </View>
-        <View style={{height: 20}}></View>
+      {/* MAIN BODY */}
+      <ScrollView>{/* OLD RECEIPTS GO HERE */}</ScrollView>
 
-        <Image source={pic} style={styles.profileimage} />
-
-        <Text style={styles.profilenametext}>{user.fullName}</Text>
-
-        <Text style={styles.profileemailtext}>{user.email}</Text>
-
-        <Text>
-          {'\n'}
-          {'\n'}
-          {'\n'}
-        </Text>
-
-        <TouchableOpacity
-          style={styles.loginbutton}
-          onPress={() => navigation.navigate('Scanner')}
+      {/* FOOTER */}
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          height: 100,
+          justifyContent: 'space-around',
+          paddingBottom: 5,
+          // backgroundColor: 'black',
+        }}
+      >
+        {/* SCAN BUTTON */}
+        <View
+          style={{
+            width: '32%',
+            height: '100%',
+            paddingRight: 1,
+            paddingLeft: 1,
+            paddingTop: 2,
+          }}
         >
-          <Text style={styles.logintext}>Start Slicing!</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={takePictureAsync}
+          >
+            <Entypo name="camera" size={45} color="black" />
+          </TouchableOpacity>
+        </View>
 
-        {/*
-              <TouchableOpacity
-                onPress={() => navigation.navigate('FriendsList')}
+        {/* GALLERY BUTTON */}
+        <View
+          style={{
+            width: '32%',
+            height: '100%',
+            paddingLeft: 1,
+            paddingRight: 1,
+            paddingTop: 2,
+          }}
+        >
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={selectPictureAsync}
+          >
+            <Entypo name="upload" size={45} color="black" />
+          </TouchableOpacity>
+        </View>
 
-                style={styles.loginbutton}
-              >
-                <Text style={styles.logintext}>Slicing Friends</Text>
-              </TouchableOpacity>
+        {/* DEBTS BUTTON */}
+        <View
+          style={{width: '32%', paddingLeft: 1, paddingTop: 2, paddingRight: 1}}
+        >
+          <TouchableOpacity style={styles.footerButton}>
+            <MaterialIcons name="payment" size={45} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
 
-              <TouchableOpacity style={styles.loginbutton}>
-                <Text
-                  style={styles.logintext}
-                  onPress={() => navigation.navigate('History')}
-                >
-                  Slicing History
-                </Text>
-              </TouchableOpacity>
-              */}
-        <Text>
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          {'\n'}
-        </Text>
-      </ImageBackground>
-
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-        <Text>Success!</Text>
+      {/* OVERLAY */}
+      <Overlay
+        overlayStyle={{height: '60%'}}
+        isVisible={visible}
+        onBackdropPress={toggleOverlay}
+      >
+        <SingleReceipt success />
       </Overlay>
     </View>
   )
@@ -121,12 +169,16 @@ export function UserHome(props) {
 const mapState = (state) => {
   return {
     user: state.user,
+    receipt: state.receipt,
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
+    getReceipt: (receiptId) => dispatch(fetchReceipt(receiptId)),
+    scanReceipt: (base64) => dispatch(scanReceipt(base64)),
+    clearReceipt: () => dispatch(clearReceipt()),
   }
 }
 

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from 'react-native'
 import pie from '../assets/pie.jpg'
 import styles from './styles'
@@ -19,6 +20,7 @@ import {searchUsersThunk, clearUsers} from '../store/users'
 import {assignUser} from '../store/receipt'
 import {addMe} from '../store/users'
 import {AWS_URL} from '../secrets'
+import setDollar from '../util/setDollar'
 
 // prevents useEffect from running on component mount
 const useDidUpdateEffect = (fn, inputs) => {
@@ -69,6 +71,10 @@ export function UsersList(props) {
           `${AWS_URL}receipts/${props.receiptId}/assign`,
           requestBody
         )
+        navigation.navigate('UserHome', {
+          success: true,
+          receiptId: props.receiptId,
+        })
       } catch (err) {
         console.log(err)
       }
@@ -111,9 +117,11 @@ export function UsersList(props) {
       }, [])
       // fire thunk to assign items
       postAssignment(assignmentPostBody)
-      navigation.navigate('UserHome', {success: true})
     } else {
       // not done assigning, go to receipt items list
+      console.log('NAVIGATION STATE IS: ', navigation.dangerouslyGetState())
+      let routes = navigation.dangerouslyGetState().routes
+      if (routes[routes.length - 1].name === 'UserHome') return
       navigation.navigate('ReceiptItems')
     }
   }, items)
@@ -128,68 +136,90 @@ export function UsersList(props) {
   }
 
   return (
-    <KeyboardAwareScrollView>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}>
-          <Text style={styles.texttitle}>Select Slicer</Text>
-          <TextInput
-            ref={(input) => {
-              textInput = input
-            }}
-            style={styles.credentialinput}
-            onChangeText={handleTextChange}
-          />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        // justifyContent: 'center',
+        height: '100%',
+      }}
+    >
+      <Text style={styles.textsubtitle}>Select Slicer</Text>
+      <TextInput
+        ref={(input) => {
+          textInput = input
+        }}
+        style={styles.credentialinput}
+        onChangeText={handleTextChange}
+      />
 
-          <View style={{width: '100%'}}>
-            <ScrollView>
-              {users.map((user) => {
-                const name = `${user.firstName} ${user.lastName}`
-                return (
-                  <TouchableOpacity
-                    key={user.email}
-                    onPress={(e) => {
-                      handleSelectionPress(user)
+      <View style={{width: '100%'}}>
+        <ScrollView>
+          {users.map((user) => {
+            const name = `${user.firstName} ${user.lastName}`
+            return (
+              <TouchableOpacity
+                key={user.email}
+                onPress={(e) => {
+                  handleSelectionPress(user)
+                }}
+              >
+                <View style={{width: '100%'}}>
+                  <Card
+                    title={name}
+                    containerStyle={{
+                      borderRadius: 15,
+                      backgroundColor: '#f5f5f5',
+                      shadowColor: '#e3e3e3',
+                      shadowOffset: {width: 2, height: 2},
+                      shadowOpacity: 0.8,
+                      shadowRadius: 2,
+                      elevation: 5,
                     }}
                   >
-                    <View style={{width: '100%'}}>
-                      <Card title={name} style={{width: '100%'}}>
-                        <View style={styles.userCard}>
-                          <Text style={{fontSize: 25}}>{name} </Text>
-                          <Text style={{flexWrap: 'wrap'}}>{user.email}</Text>
-                        </View>
-                      </Card>
+                    <View style={styles.userCard}>
+                      <Text style={{fontSize: 25}}>{name} </Text>
+                      <Text style={{flexWrap: 'wrap'}}>{user.email}</Text>
                     </View>
-                  </TouchableOpacity>
-                )
-              })}
-            </ScrollView>
-          </View>
-          <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-            <Card>
-              <Card.Title style={{fontSize: 25}}>
-                {`${selectedUser.firstName} ${selectedUser.lastName}`}
-              </Card.Title>
-              <Card.Divider />
-              {selectedItems.map((item) => {
-                return (
-                  <View
-                    key={item.id}
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Text style={{marginBottom: 20}}>{`${item.name}`}</Text>
-                    <Text>{`${item.price}`}</Text>
-                  </View>
-                )
-              })}
-              <Button onPress={handleUserConfirmation} title="Slice"></Button>
-            </Card>
-          </Overlay>
+                  </Card>
+                </View>
+              </TouchableOpacity>
+            )
+          })}
+        </ScrollView>
+      </View>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        <View style={{padding: 25, paddingBottom: 1, paddingTop: 15}}>
+          <Text style={{fontSize: 30, paddingBottom: 10}}>
+            {`${selectedUser.firstName} ${selectedUser.lastName}`}
+          </Text>
+          {selectedItems.map((item) => {
+            return (
+              <View
+                key={item.id}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text
+                  style={{marginBottom: 25, fontSize: 15}}
+                >{`${item.name}`}</Text>
+                <Text style={{fontSize: 15}}>{`$${setDollar(
+                  item.price
+                )}`}</Text>
+              </View>
+            )
+          })}
+          <Button
+            buttonStyle={{backgroundColor: '#E83535', borderRadius: 15}}
+            onPress={handleUserConfirmation}
+            title="Slice"
+          ></Button>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAwareScrollView>
+      </Overlay>
+    </View>
   )
 }
 

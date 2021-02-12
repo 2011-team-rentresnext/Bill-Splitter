@@ -28,6 +28,7 @@ export default StyleSheet.create({
   },
   textsubtitle: {
     color: '#E83535',
+    backgroundColor: 'white',
     textAlign: 'center',
     fontSize: 35,
     fontFamily: 'Cochin',
@@ -55,11 +56,13 @@ export default StyleSheet.create({
     width: 350,
     height: 200,
     borderRadius: 80,
+    paddingBottom: 45,
   },
   usernamelabel: {
     color: '#E83535',
     fontSize: 30,
     fontFamily: 'Cochin',
+    paddingTop: 10,
   },
   credentialinput: {
     marginLeft: 40,
@@ -92,6 +95,7 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    backgroundColor: '#f5f5f5',
   },
 
   selectedtemCardText: {
@@ -103,14 +107,35 @@ export default StyleSheet.create({
   selectedItemCard: {
     backgroundColor: '#E83535',
     color: 'white',
+    borderRadius: 15,
+    shadowColor: '#e3e3e3',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
 
   //UserHome component
   navbar: {
-    flex: 1,
+    height: 20,
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
+  },
+
+  footerButton: {
+    // margin: '2%',
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f5f5f5',
+    shadowColor: '#e3e3e3',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
 
   navtextbig: {
@@ -132,6 +157,7 @@ export default StyleSheet.create({
   },
 
   profilenametext: {
+    width: '75%',
     color: '#E83535',
     fontSize: 35,
     fontFamily: 'Cochin',
@@ -170,7 +196,8 @@ export default StyleSheet.create({
   },
   texttitle: {
     color: '#E83535',
-    fontSize: 45,
+    fontSize: 65,
+    fontFamily: 'Cochin',
   },
   titleview: {
     flex: 1,
@@ -192,6 +219,7 @@ export default StyleSheet.create({
   logintext: {
     color: 'white',
     fontSize: 30,
+    fontFamily: 'Cochin',
   },
 
   //for Login component
@@ -199,10 +227,6 @@ export default StyleSheet.create({
     width: 350,
     height: 200,
     borderRadius: 80,
-  },
-  usernamelabel: {
-    color: '#E83535',
-    fontSize: 30,
   },
   credentialinput: {
     marginLeft: 40,
@@ -256,6 +280,7 @@ export default StyleSheet.create({
   profilenametext: {
     color: '#E83535',
     fontSize: 35,
+    fontFamily: 'Cochin',
   },
 
   profileemailtext: {
