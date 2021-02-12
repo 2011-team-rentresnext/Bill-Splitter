@@ -9,3 +9,4 @@ export { default as UsersList } from "./UsersList";
 export { default as ReceiptItems } from "./ReceiptItems";
 export { default as SuccessPage } from "./SuccessPage";
 export { default as LoadingPage } from "./LoadingPage";
+export { default as PendingDebts } from "./PendingDebts";

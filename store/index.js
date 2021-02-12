@@ -6,8 +6,9 @@ import user from "./user";
 import users from "./users";
 import dummyReceipt from "./dummyReceipt";
 import receipt from "./receipt";
+import debts from "./debts"
 
-const reducer = combineReducers({ user, users, receipt });
+const reducer = combineReducers({ user, users, receipt, debts });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
