@@ -66,7 +66,6 @@ export const signup = (newUser) => async (dispatch) => {
 export const checkNotifications = (userId) => async (dispatch) => {
   try {
     const {data} = await axios.get(`${AWS_URL}/users/${userId}/notifications`)
-    console.log('DATA IS ', data)
     dispatch(updateNotifications(data.hasOutstandingDebts))
   } catch (err) {
     console.log(err)
