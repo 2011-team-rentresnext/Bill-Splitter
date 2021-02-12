@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native'
 import {Card, Overlay} from 'react-native-elements'
+import {Feather} from '@expo/vector-icons'
 import styles from './styles'
 import {connect} from 'react-redux'
 import {logout} from '../store'
@@ -14,6 +15,9 @@ function UserHome(props) {
   const {route, navigation} = props
   const {user} = props
   const [visible, setVisible] = useState(false)
+  const [notificationVisible, setNotificationVisible] = useState(
+    !!props.user.hasOutstandingDebts
+  )
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -66,6 +70,10 @@ function UserHome(props) {
 
   const toggleOverlay = () => {
     setVisible(!visible)
+  }
+
+  const toggleNotificationOverlay = () => {
+    setNotificationVisible(false)
   }
 
   const handlePressLogout = () => {
@@ -149,7 +157,11 @@ function UserHome(props) {
           style={{width: '32%', paddingLeft: 1, paddingTop: 2, paddingRight: 1}}
         >
           <TouchableOpacity style={styles.footerButton}>
-            <MaterialIcons name="payment" size={45} color="black" />
+            <MaterialIcons
+              name="payment"
+              size={45}
+              color={props.user.hasOutstandingDebts ? '#E83535' : 'black'}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -161,6 +173,44 @@ function UserHome(props) {
         onBackdropPress={toggleOverlay}
       >
         <SingleReceipt success />
+      </Overlay>
+      <Overlay
+        overlayStyle={{
+          position: 'absolute',
+          // marginTop: '120%',
+          marginBottom: 100,
+          borderRadius: 15,
+          bottom: 0,
+        }}
+        isVisible={notificationVisible}
+        onBackdropPress={toggleNotificationOverlay}
+      >
+        <View style={{flexDirection: 'row'}}>
+          <Text
+            style={{
+              color: '#E83535',
+              textAlign: 'center',
+              fontSize: 35,
+              fontFamily: 'Cochin',
+            }}
+          >
+            Pay your friends!
+          </Text>
+          <Feather
+            style={{marginLeft: 15}}
+            name="arrow-down"
+            size={40}
+            color="#E83535"
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignContent: 'center',
+              alignItems: 'center',
+            }}
+          ></View>
+        </View>
       </Overlay>
     </View>
   )

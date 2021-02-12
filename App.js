@@ -76,7 +76,7 @@ export default function App(props) {
               name="Home"
               component={Home}
               options={{
-                title: '',
+                headerTitle: '',
                 headerLeft: null,
                 headerRight: null,
               }}
