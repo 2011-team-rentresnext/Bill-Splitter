@@ -23,27 +23,12 @@ export const fetchReceipts = (userId) => {
   return async (dispatch) => {
     try {
       console.log('aws url is this! HERE! :  ', AWS_URL + 'receipts')
-      const res = await axios.get(AWS_URL + `receipts/${userId}`)
-      console.log(res.data.items)
-      dispatch(makeReceipt(res.data))
+      const res = await axios.get(AWS_URL + `receipts/history`)
+      console.log(res.data)
+      dispatch(setReceipts(res.data))
     } catch (err) {
       console.error(err)
     }
-  }
-}
-
-const assignUserReducer = (state, userId, itemIds) => {
-  const updatedItems = state.items.map((item) => {
-    item = {...item}
-    if (itemIds.includes(item.id)) {
-      item.assignedUser = userId
-    }
-    return item
-  })
-  return {
-    ...state,
-    creditor: {...state.creditor},
-    items: updatedItems,
   }
 }
 
@@ -51,15 +36,11 @@ const assignUserReducer = (state, userId, itemIds) => {
  * REDUCER
  */
 
-export default function (receipt = defaultReceipt, action) {
+export default function (receipts = defaultReceipts, action) {
   switch (action.type) {
-    case MAKE_RECEIPT:
-      return action.receipt
     case SET_RECEIPTS:
-      return assignUserReducer(receipt, action.userId, action.itemIds)
-    case CLEAR_RECEIPT:
-      return defaultReceipt
+      return action.receipts
     default:
-      return receipt
+      return receipts
   }
 }

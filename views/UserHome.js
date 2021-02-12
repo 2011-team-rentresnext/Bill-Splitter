@@ -9,15 +9,16 @@ import {Entypo} from '@expo/vector-icons'
 import {MaterialIcons} from '@expo/vector-icons'
 import SingleReceipt from './SingleReceipt'
 import * as ImagePicker from 'expo-image-picker'
+import {ListItem, ListItemSeparator} from '../components/lists'
 
 function UserHome(props) {
-  const {route, navigation} = props
-  const {user} = props
+  const {route, navigation, user, receipts, clearReceipt, scanReceipt} = props
   const [visible, setVisible] = useState(false)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     if (
+      // Optional chaining (?.)
       props.route &&
       props.route.params &&
       props.route.params.success &&
@@ -37,8 +38,8 @@ function UserHome(props) {
     })
     if (!cancelled) {
       try {
-        props.clearReceipt()
-        props.scanReceipt(base64)
+        clearReceipt()
+        scanReceipt(base64)
         props.navigation.navigate('ReceiptItems')
       } catch (error) {
         setError(`Error: ${error.message}`)
@@ -54,8 +55,8 @@ function UserHome(props) {
     })
     if (!cancelled) {
       try {
-        props.clearReceipt()
-        props.scanReceipt(base64)
+        clearReceipt()
+        scanReceipt(base64)
         props.navigation.navigate('ReceiptItems')
       } catch (error) {
         setError(`Error: ${error.message}`)
@@ -71,6 +72,11 @@ function UserHome(props) {
   const handlePressLogout = () => {
     props.logout()
     props.navigation.navigate('Home')
+  }
+
+  const handlePressReceipt = () => {
+    setVisible(true)
+    props.getReceipt(receiptId)
   }
 
   return (
@@ -95,7 +101,20 @@ function UserHome(props) {
       </View>
 
       {/* MAIN BODY */}
-      <ScrollView>{/* OLD RECEIPTS GO HERE */}</ScrollView>
+      <ScrollView>
+        {/* OLD RECEIPTS GO HERE, doesn't need ScrollView?? */}
+      </ScrollView>
+      <FlatList
+        data={receipts}
+        keyExtractor={(receipt) => receipt.id}
+        ItemSeparatorComponent={ListItemSeparator}
+        renderItem={({item}) => (
+          <ListItem
+            title={item.createdAt}
+            onPress={() => handlePressReceipt(item.id)}
+          />
+        )}
+      />
 
       {/* FOOTER */}
       <View
@@ -170,6 +189,7 @@ const mapState = (state) => {
   return {
     user: state.user,
     receipt: state.receipt,
+    receipts: state.receipts,
   }
 }
 
