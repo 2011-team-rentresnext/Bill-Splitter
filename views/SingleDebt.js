@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import {Image, StyleSheet, Text, View, ScrollView} from 'react-native'
-import {Button} from 'react-native-elements'
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native'
+import {Button, Overlay} from 'react-native-elements'
 import {Divider} from 'react-native-paper'
 import axios from 'axios'
 import styles from './styles'
@@ -8,13 +15,18 @@ import setDollar from '../util/setDollar'
 import {AWS_URL} from '../secrets'
 
 export function SingleDebt(props) {
+  const {debt, user} = props.route.params
   const [completedPayment, setCompletedPayment] = useState(false)
+  const [loading, setLoading] = useState(false)
   const handlePaid = async () => {
+    setLoading(true)
     try {
       await axios.put(`${AWS_URL}receipts/${debt.receipt.id}/settle`)
       setCompletedPayment(true)
+      setLoading(false)
     } catch (err) {
       console.log(err)
+      setLoading(false)
     }
   }
 
@@ -66,10 +78,12 @@ export function SingleDebt(props) {
           paddingLeft: 40,
         }}
       >
-        <Text style={componentStyles.bigger}>Owed to</Text>
-        <Text
-          style={componentStyles.bigger}
-        >{`${debt.creditor.firstName} ${debt.creditor.lastName}`}</Text>
+        <Text style={componentStyles.bigger}>Created by</Text>
+        <Text style={componentStyles.bigger}>
+          {user.id === debt.creditor.id
+            ? 'Me'
+            : `${debt.creditor.firstName} ${debt.creditor.lastName}`}
+        </Text>
       </View>
       <Divider style={{padding: 1, width: '100%'}} />
 
@@ -111,6 +125,18 @@ export function SingleDebt(props) {
           title={completedPayment ? 'Paid' : 'Mark as Paid'}
         />
       </View>
+      <Overlay
+        isVisible={loading}
+        overlayStyle={{
+          flex: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+          backgroundColor: 'rgba(52, 52, 52, 0.8)',
+        }}
+        fullScreen
+      >
+        <ActivityIndicator />
+      </Overlay>
     </View>
   )
 }
@@ -128,37 +154,37 @@ const componentStyles = StyleSheet.create({
   },
 })
 
-const debt = {
-  creditor: {
-    id: 107,
-    firstName: 'J',
-    lastName: 'J',
-    email: 'j@gmail.com',
-  },
-  receipt: {
-    id: 240,
-    total: 4650,
-    createdAt: '2021-02-12T17:47:03.474Z',
-    updatedAt: '2021-02-12T17:47:03.474Z',
-    creditorId: 107,
-  },
-  items: [
-    {
-      id: 990,
-      name: 'Wine',
-      price: 850,
-      createdAt: '2021-02-12T17:47:03.487Z',
-      updatedAt: '2021-02-12T17:47:03.487Z',
-      receiptId: 231,
-    },
-    {
-      id: 991,
-      name: 'Beer',
-      price: 1300,
-      createdAt: '2021-02-12T17:47:03.491Z',
-      updatedAt: '2021-02-12T17:47:03.491Z',
-      receiptId: 231,
-    },
-  ],
-  totalDebt: 2150,
-}
+// const debt = {
+//   creditor: {
+//     id: 107,
+//     firstName: 'J',
+//     lastName: 'J',
+//     email: 'j@gmail.com',
+//   },
+//   receipt: {
+//     id: 240,
+//     total: 4650,
+//     createdAt: '2021-02-12T17:47:03.474Z',
+//     updatedAt: '2021-02-12T17:47:03.474Z',
+//     creditorId: 107,
+//   },
+//   items: [
+//     {
+//       id: 990,
+//       name: 'Wine',
+//       price: 850,
+//       createdAt: '2021-02-12T17:47:03.487Z',
+//       updatedAt: '2021-02-12T17:47:03.487Z',
+//       receiptId: 231,
+//     },
+//     {
+//       id: 991,
+//       name: 'Beer',
+//       price: 1300,
+//       createdAt: '2021-02-12T17:47:03.491Z',
+//       updatedAt: '2021-02-12T17:47:03.491Z',
+//       receiptId: 231,
+//     },
+//   ],
+//   totalDebt: 2150,
+// }
