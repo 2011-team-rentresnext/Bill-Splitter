@@ -16,12 +16,14 @@ import {
   ReceiptItems,
   SuccessPage,
   LoadingPage,
+  PendingDebts
 } from './views'
 import {Provider} from 'react-redux'
 import {Menu, Divider} from 'react-native-paper'
 import {Provider as PaperProvider} from 'react-native-paper'
 import store from './store'
 import {navigationRef, navigate} from './RootNavigation'
+
 
 const Stack = createStackNavigator()
 
@@ -177,6 +179,15 @@ export default function App(props) {
               options={{
                 title: 'Friends',
               }}
+            />
+
+            <Stack.Screen
+              name="PendingDebts"
+              options={{
+                title: 'Pending Debts',
+                headerBackTitle: 'Back',
+              }}
+              component={PendingDebts}
             />
           </Stack.Navigator>
         </NavigationContainer>
