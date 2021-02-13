@@ -78,7 +78,7 @@ export default function App(props) {
               name="Home"
               component={Home}
               options={{
-                title: '',
+                headerTitle: '',
                 headerLeft: null,
                 headerRight: null,
               }}
@@ -167,7 +167,7 @@ export default function App(props) {
               name="ReceiptItems"
               options={{
                 title: '',
-                headerBackTitle: 'Retake Picture',
+                headerBackTitle: 'Retake',
               }}
               component={ReceiptItems}
             />

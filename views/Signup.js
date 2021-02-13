@@ -42,6 +42,7 @@ function Signup(props) {
               <Text style={styles.usernamelabel}>First Name</Text>
             </View>
             <TextInput
+              autoCorrect={false}
               style={styles.credentialinput}
               onChangeText={(firstName) => setFirstName(firstName)}
               returnKeyType="next"
@@ -57,6 +58,7 @@ function Signup(props) {
               <Text style={styles.usernamelabel}>Last Name</Text>
             </View>
             <TextInput
+              autoCorrect={false}
               returnKeyType="next"
               style={styles.credentialinput}
               onChangeText={(lastName) => setLastName(lastName)}
@@ -75,6 +77,7 @@ function Signup(props) {
               <Text style={styles.usernamelabel}>Email</Text>
             </View>
             <TextInput
+              autoCorrect={false}
               returnKeyType="next"
               style={styles.credentialinput}
               onChangeText={(email) => setEmail(email)}
@@ -93,6 +96,7 @@ function Signup(props) {
               <Text style={styles.usernamelabel}>Password</Text>
             </View>
             <TextInput
+              autoCorrect={false}
               secureTextEntry={true}
               style={styles.credentialinput}
               onChangeText={(password) => setPassword(password)}

@@ -8,7 +8,9 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
 } from 'react-native'
+import {Overlay} from 'react-native-elements'
 import pie from '../assets/pie.jpg'
 import styles from './styles'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
@@ -19,16 +21,19 @@ export function Login(props) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginFailed, setLoginFailed] = useState(false)
+  const [loading, setLoading] = useState(false)
   let emailInput
   let passwordInput
 
   const handlePress = () => {
     props.login(email, password)
+    setLoading(true)
     emailInput.clear()
     passwordInput.clear()
   }
 
   useEffect(() => {
+    setLoading(false)
     if (props.user.id) props.navigation.navigate('UserHome')
     if (props.user.error) {
       setLoginFailed(true)
@@ -67,6 +72,7 @@ export function Login(props) {
             </View>
 
             <TextInput
+              autoCorrect={false}
               style={styles.credentialinput}
               onChangeText={(email) => setEmail(email)}
               ref={(input) => {
@@ -83,6 +89,7 @@ export function Login(props) {
               <Text style={styles.usernamelabel}>Password</Text>
             </View>
             <TextInput
+              autoCorrect={false}
               secureTextEntry={true}
               style={styles.credentialinput}
               onChangeText={(password) => setPassword(password)}
@@ -118,6 +125,18 @@ export function Login(props) {
               Login
             </Text>
           </TouchableOpacity>
+          <Overlay
+            isVisible={loading}
+            overlayStyle={{
+              flex: 1,
+              justifyContent: 'center',
+              flexDirection: 'column',
+              backgroundColor: 'rgba(52, 52, 52, 0.8)',
+            }}
+            fullScreen
+          >
+            <ActivityIndicator />
+          </Overlay>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>

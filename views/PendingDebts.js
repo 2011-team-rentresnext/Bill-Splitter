@@ -49,15 +49,16 @@ import { getUserDebts } from '../store/debts'
                 (<View style={{width: '100%'}}>
                 <ScrollView>
                 {debts.map((debt) => {
-       
+                    const creditorFullName = `${debt.creditor.firstName} ${debt.creditor.lastName}`
+
                 return (
                     <TouchableOpacity
-                    key={debt.id}
+                    key={debt.receipt.id}
                     >
 
                     <View style={{width: '100%'}}>
                         <Card
-                        title={debt.id}
+                        title={debt.receipt.id}
                         containerStyle={{
                             borderRadius: 15,
                             backgroundColor: '#f5f5f5',
@@ -69,8 +70,8 @@ import { getUserDebts } from '../store/debts'
                         }}
                         >
                         <View style={styles.userCard}>
-                            <Text style={{fontSize: 25}}>{debt.id} </Text>
-                            <Text style={{flexWrap: 'wrap'}}>${debt.amountOwed}</Text>
+                            <Text style={{fontSize: 25}}>Pay to:  {creditorFullName} </Text>
+                            <Text style={{flexWrap: 'wrap'}}>Amount Owed: ${debt.totalDebt}</Text>
 
                         </View>
                         </Card>
