@@ -163,7 +163,10 @@ function UserHome(props) {
         <View
           style={{width: '32%', paddingLeft: 1, paddingTop: 2, paddingRight: 1}}
         >
-          <TouchableOpacity style={styles.footerButton}>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate('PendingDebts')}
+          >
             <MaterialIcons
               name="payment"
               size={45}

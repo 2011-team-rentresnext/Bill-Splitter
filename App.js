@@ -17,6 +17,7 @@ import {
   SuccessPage,
   LoadingPage,
   SingleDebt,
+  PendingDebts,
 } from './views'
 import {Provider} from 'react-redux'
 import {Menu, Divider} from 'react-native-paper'
@@ -175,6 +176,15 @@ export default function App(props) {
               options={{
                 title: 'Friends',
               }}
+            />
+
+            <Stack.Screen
+              name="PendingDebts"
+              options={{
+                title: 'Pending Debts',
+                headerBackTitle: 'Back',
+              }}
+              component={PendingDebts}
             />
           </Stack.Navigator>
         </NavigationContainer>
