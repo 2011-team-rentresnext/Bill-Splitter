@@ -135,7 +135,9 @@ function UserHome(props) {
         renderItem={({item}) => (
           <ListItem
             title={`Created: ${date(item.createdAt)}`}
-            subTitle={`by ${item.user.firstName}`}
+            subTitle={`by ${
+              item.user.id === user.id ? 'Me' : item.user.firstName
+            }`}
             onPress={() => handlePressReceipt(item.id)}
           />
         )}
