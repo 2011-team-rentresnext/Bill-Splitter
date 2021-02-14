@@ -6,6 +6,7 @@ import styles from './styles'
 import {connect} from 'react-redux'
 import {logout} from '../store'
 import {fetchReceipt, scanReceipt, clearReceipt} from '../store/receipt'
+import {checkNotifications} from '../store/user'
 import {Entypo} from '@expo/vector-icons'
 import {MaterialIcons} from '@expo/vector-icons'
 import SingleReceipt from './SingleReceipt'
@@ -21,6 +22,13 @@ function UserHome(props) {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    const checkNotifications = navigation.addListener('focus', () => {
+      props.checkNotifications(user.id)
+    })
+    return checkNotifications
+  }, [navigation])
+
+  useEffect(() => {
     if (
       props.route &&
       props.route.params &&
@@ -28,7 +36,6 @@ function UserHome(props) {
       props.route.params.receiptId
     ) {
       setVisible(true)
-      console.log('THE RECEIPT ID IS : ', props.route.params.receiptId)
       props.getReceipt(props.route.params.receiptId)
     }
   }, [route])
@@ -55,7 +62,6 @@ function UserHome(props) {
     if (!granted) alert('Permission to access camera roll is required!')
     const {cancelled, base64} = await ImagePicker.launchImageLibraryAsync({
       base64: true,
-      quality: 0.1
     })
     if (!cancelled) {
       try {
@@ -158,10 +164,9 @@ function UserHome(props) {
           style={{width: '32%', paddingLeft: 1, paddingTop: 2, paddingRight: 1}}
         >
           <TouchableOpacity
-           style={styles.footerButton}
-           style={styles.footerButton}
-           onPress={() => navigation.navigate('PendingDebts')}
-           >
+            style={styles.footerButton}
+            onPress={() => navigation.navigate('PendingDebts')}
+          >
             <MaterialIcons
               name="payment"
               size={45}
@@ -171,7 +176,7 @@ function UserHome(props) {
         </View>
       </View>
 
-      {/* OVERLAY */}
+      {/* RECEIPT OVERLAY */}
       <Overlay
         overlayStyle={{height: '60%'}}
         isVisible={visible}
@@ -179,6 +184,8 @@ function UserHome(props) {
       >
         <SingleReceipt success />
       </Overlay>
+
+      {/* NOTIFICATION OVERLAY */}
       <Overlay
         overlayStyle={{
           position: 'absolute',
@@ -234,6 +241,7 @@ const mapDispatch = (dispatch) => {
     getReceipt: (receiptId) => dispatch(fetchReceipt(receiptId)),
     scanReceipt: (base64) => dispatch(scanReceipt(base64)),
     clearReceipt: () => dispatch(clearReceipt()),
+    checkNotifications: (userId) => dispatch(checkNotifications(userId)),
   }
 }
 

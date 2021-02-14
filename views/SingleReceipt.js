@@ -152,6 +152,7 @@ export function SingleReceipt(props) {
                     {assignee.items.map((item) => {
                       return (
                         <View
+                          key={item.id}
                           style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',

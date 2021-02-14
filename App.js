@@ -16,14 +16,14 @@ import {
   ReceiptItems,
   SuccessPage,
   LoadingPage,
-  PendingDebts
+  SingleDebt,
+  PendingDebts,
 } from './views'
 import {Provider} from 'react-redux'
 import {Menu, Divider} from 'react-native-paper'
 import {Provider as PaperProvider} from 'react-native-paper'
 import store from './store'
 import {navigationRef, navigate} from './RootNavigation'
-
 
 const Stack = createStackNavigator()
 
@@ -65,15 +65,6 @@ export default function App(props) {
               headerTitle: 'Sliced',
             }}
           >
-            {/* <Stack.Screen
-            name="LoadingPage"
-            component={LoadingPage}
-            options={{
-              title: '',
-              headerLeft: null,
-            }}
-          /> */}
-
             <Stack.Screen
               name="Home"
               component={Home}
@@ -171,7 +162,13 @@ export default function App(props) {
               }}
               component={ReceiptItems}
             />
-
+            <Stack.Screen
+              name="SingleDebt"
+              component={SingleDebt}
+              options={{
+                headerBackTitle: 'Back',
+              }}
+            />
             <Stack.Screen name="SuccessPage" component={SuccessPage} />
             <Stack.Screen
               name="FriendsList"
