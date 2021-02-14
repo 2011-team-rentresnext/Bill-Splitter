@@ -46,7 +46,6 @@ export const scanReceipt = (base64) => {
   return async (dispatch) => {
     try {
       const res = await axios.post(AWS_URL + 'receipts', {base64})
-      console.log(res.data.items)
       dispatch(makeReceipt(res.data))
     } catch (err) {
       console.error(err)

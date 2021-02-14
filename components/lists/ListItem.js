@@ -1,57 +1,52 @@
-import React from "react";
-import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import React from 'react'
+import {View, StyleSheet, Image, TouchableHighlight} from 'react-native'
+import {FontAwesome5} from '@expo/vector-icons'
 
-import Text from "../Text";
-import colors from "../../config/colors";
+import Text from '../Text'
+import colors from '../../config/colors'
 
-function ListItem({
-  title,
-  subTitle,
-  image,
-  IconComponent,
-  onPress,
-  renderRightActions,
-}) {
+function ListItem({title, subTitle, image, onPress}) {
   return (
-    <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
-        <View style={styles.container}>
-          {IconComponent}
-          {image && <Image style={styles.image} source={image} />}
-          <View style={styles.detailsContainer}>
-            <Text style={styles.title} numberOfLines={1}>
-              {title}
+    <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+      <View style={styles.container}>
+        <FontAwesome5 name="receipt" size={35} color="black" />
+        {image && <Image style={styles.image} source={image} />}
+        <View style={styles.detailsContainer}>
+          <Text style={styles.title} numberOfLines={1}>
+            {title}
+          </Text>
+          {subTitle && (
+            <Text style={styles.subTitle} numberOfLines={2}>
+              {subTitle}
             </Text>
-            {subTitle && (
-              <Text style={styles.subTitle} numberOfLines={2}>
-                {subTitle}
-              </Text>
-            )}
-          </View>
-          <MaterialCommunityIcons
-            color={colors.medium}
-            name="chevron-right"
-            size={25}
-          />
+          )}
         </View>
-      </TouchableHighlight>
-    </Swipeable>
-  );
+      </View>
+    </TouchableHighlight>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     padding: 15,
-    backgroundColor: colors.white,
+    // flexGrow: 1,
+    // marginTop: 8,
+    marginBottom: 10,
+    // paddingBottom: 5,
+    borderRadius: 15,
+    backgroundColor: '#f5f5f5',
+    shadowColor: '#e3e3e3',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
   detailsContainer: {
-    flex: 1,
-    marginLeft: 10,
-    justifyContent: "center",
+    // flex: 1,
+    marginLeft: 20,
+    justifyContent: 'center',
   },
   image: {
     width: 70,
@@ -62,8 +57,8 @@ const styles = StyleSheet.create({
     color: colors.medium,
   },
   title: {
-    fontWeight: "500",
+    fontWeight: '500',
   },
-});
+})
 
-export default ListItem;
+export default ListItem

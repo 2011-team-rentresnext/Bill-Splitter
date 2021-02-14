@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native'
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from 'react-native'
 import {Card, Overlay} from 'react-native-elements'
 import {Feather} from '@expo/vector-icons'
 import styles from './styles'
@@ -11,9 +18,20 @@ import {MaterialIcons} from '@expo/vector-icons'
 import SingleReceipt from './SingleReceipt'
 import * as ImagePicker from 'expo-image-picker'
 import {ListItem, ListItemSeparator} from '../components/lists'
+import {fetchReceipts} from '../store/receipts'
+import date from '../util/date'
 
 function UserHome(props) {
-  const {route, navigation, user, receipts, clearReceipt, scanReceipt} = props
+  const {
+    route,
+    navigation,
+    user,
+    receipts,
+    clearReceipt,
+    scanReceipt,
+    getReceipts,
+  } = props
+  console.log('receipts', receipts)
   const [visible, setVisible] = useState(false)
   const [notificationVisible, setNotificationVisible] = useState(
     !!props.user.hasOutstandingDebts
@@ -21,15 +39,17 @@ function UserHome(props) {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    getReceipts()
     if (
       props.route &&
       props.route.params &&
       props.route.params.success &&
       props.route.params.receiptId
     ) {
-      setVisible(true)
       console.log('THE RECEIPT ID IS : ', props.route.params.receiptId)
-      props.getReceipt(props.route.params.receiptId)
+      props
+        .getReceipt(props.route.params.receiptId)
+        .then(() => setVisible(true))
     }
   }, [route])
 
@@ -70,6 +90,7 @@ function UserHome(props) {
 
   const toggleOverlay = () => {
     setVisible(!visible)
+    clearReceipt()
   }
 
   const toggleNotificationOverlay = () => {
@@ -81,9 +102,9 @@ function UserHome(props) {
     props.navigation.navigate('Home')
   }
 
-  const handlePressReceipt = () => {
+  const handlePressReceipt = async (receiptId) => {
+    await props.getReceipt(receiptId)
     setVisible(true)
-    props.getReceipt(receiptId)
   }
 
   return (
@@ -108,16 +129,13 @@ function UserHome(props) {
       </View>
 
       {/* MAIN BODY */}
-      <ScrollView>
-        {/* OLD RECEIPTS GO HERE, doesn't need ScrollView?? */}
-      </ScrollView>
       <FlatList
         data={receipts}
         keyExtractor={(receipt) => receipt.id}
-        ItemSeparatorComponent={ListItemSeparator}
         renderItem={({item}) => (
           <ListItem
-            title={item.createdAt}
+            title={`Created: ${date(item.createdAt)}`}
+            subTitle={`by ${item.user.firstName}`}
             onPress={() => handlePressReceipt(item.id)}
           />
         )}
@@ -246,6 +264,7 @@ const mapDispatch = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
     getReceipt: (receiptId) => dispatch(fetchReceipt(receiptId)),
+    getReceipts: () => dispatch(fetchReceipts()),
     scanReceipt: (base64) => dispatch(scanReceipt(base64)),
     clearReceipt: () => dispatch(clearReceipt()),
   }
