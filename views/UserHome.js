@@ -13,6 +13,7 @@ import styles from './styles'
 import {connect} from 'react-redux'
 import {logout} from '../store'
 import {fetchReceipt, scanReceipt, clearReceipt} from '../store/receipt'
+import {checkNotifications} from '../store/user'
 import {Entypo} from '@expo/vector-icons'
 import {MaterialIcons} from '@expo/vector-icons'
 import SingleReceipt from './SingleReceipt'
@@ -36,7 +37,15 @@ function UserHome(props) {
   const [notificationVisible, setNotificationVisible] = useState(
     !!props.user.hasOutstandingDebts
   )
+  const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const checkNotifications = navigation.addListener('focus', () => {
+      props.checkNotifications(user.id)
+    })
+    return checkNotifications
+  }, [navigation])
 
   useEffect(() => {
     getReceipts()
@@ -132,6 +141,8 @@ function UserHome(props) {
       <FlatList
         data={receipts}
         keyExtractor={(receipt) => receipt.id}
+        refreshing={refreshing}
+        onRefresh={getReceipts}
         renderItem={({item}) => (
           <ListItem
             title={`Created: ${date(item.createdAt)}`}
@@ -194,7 +205,10 @@ function UserHome(props) {
         <View
           style={{width: '32%', paddingLeft: 1, paddingTop: 2, paddingRight: 1}}
         >
-          <TouchableOpacity style={styles.footerButton}>
+          <TouchableOpacity
+            style={styles.footerButton}
+            onPress={() => navigation.navigate('PendingDebts')}
+          >
             <MaterialIcons
               name="payment"
               size={45}
@@ -204,7 +218,7 @@ function UserHome(props) {
         </View>
       </View>
 
-      {/* OVERLAY */}
+      {/* RECEIPT OVERLAY */}
       <Overlay
         overlayStyle={{height: '60%'}}
         isVisible={visible}
@@ -212,6 +226,8 @@ function UserHome(props) {
       >
         <SingleReceipt success />
       </Overlay>
+
+      {/* NOTIFICATION OVERLAY */}
       <Overlay
         overlayStyle={{
           position: 'absolute',
@@ -269,6 +285,7 @@ const mapDispatch = (dispatch) => {
     getReceipts: () => dispatch(fetchReceipts()),
     scanReceipt: (base64) => dispatch(scanReceipt(base64)),
     clearReceipt: () => dispatch(clearReceipt()),
+    checkNotifications: (userId) => dispatch(checkNotifications(userId)),
   }
 }
 
