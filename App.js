@@ -16,6 +16,8 @@ import {
   ReceiptItems,
   SuccessPage,
   LoadingPage,
+  SingleDebt,
+  PendingDebts,
 } from './views'
 import {Provider} from 'react-redux'
 import {Menu, Divider} from 'react-native-paper'
@@ -63,15 +65,6 @@ export default function App(props) {
               headerTitle: 'Sliced',
             }}
           >
-            {/* <Stack.Screen
-            name="LoadingPage"
-            component={LoadingPage}
-            options={{
-              title: '',
-              headerLeft: null,
-            }}
-          /> */}
-
             <Stack.Screen
               name="Home"
               component={Home}
@@ -169,7 +162,13 @@ export default function App(props) {
               }}
               component={ReceiptItems}
             />
-
+            <Stack.Screen
+              name="SingleDebt"
+              component={SingleDebt}
+              options={{
+                headerBackTitle: 'Back',
+              }}
+            />
             <Stack.Screen name="SuccessPage" component={SuccessPage} />
             <Stack.Screen
               name="FriendsList"
@@ -177,6 +176,15 @@ export default function App(props) {
               options={{
                 title: 'Friends',
               }}
+            />
+
+            <Stack.Screen
+              name="PendingDebts"
+              options={{
+                title: 'Pending Debts',
+                headerBackTitle: 'Back',
+              }}
+              component={PendingDebts}
             />
           </Stack.Navigator>
         </NavigationContainer>
