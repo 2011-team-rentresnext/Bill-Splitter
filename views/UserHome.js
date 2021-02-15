@@ -157,7 +157,7 @@ function UserHome(props) {
           height: 100,
           justifyContent: 'space-around',
           paddingBottom: 5,
-          // backgroundColor: 'black',
+          backgroundColor: '#969696',
         }}
       >
         {/* SCAN BUTTON */}
