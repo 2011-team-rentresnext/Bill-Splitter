@@ -2,7 +2,7 @@ import * as ImagePicker from 'expo-image-picker'
 import React, {useEffect, useState} from 'react'
 import {Button, Image, StyleSheet, Text, View} from 'react-native'
 import {connect} from 'react-redux'
-import {scanReceipt} from '../../../store/receipt'
+import {scanReceipt} from '../store/receipt'
 
 function Scanner(props) {
   const [image, setImage] = useState(null)

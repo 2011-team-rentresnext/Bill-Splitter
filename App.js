@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'react-native-gesture-handler'
-import {StyleSheet, Button, TouchableOpacity} from 'react-native'
+import {StyleSheet, Button, TouchableOpacity, LogBox} from 'react-native'
 import {Entypo} from '@expo/vector-icons'
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack'
@@ -26,6 +26,8 @@ import store from './store'
 import {navigationRef, navigate} from './RootNavigation'
 
 const Stack = createStackNavigator()
+
+LogBox.ignoreAllLogs(true)
 
 export default function App(props) {
   const [visible, setVisible] = React.useState(false)
