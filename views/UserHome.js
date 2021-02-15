@@ -43,6 +43,7 @@ function UserHome(props) {
     getReceipts()
     const checkNotifications = navigation.addListener('focus', () => {
       props.checkNotifications(user.id)
+      getReceipts()
     })
     return checkNotifications
   }, [navigation])
