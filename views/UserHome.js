@@ -140,7 +140,7 @@ function UserHome(props) {
       {/* MAIN BODY */}
       <FlatList
         data={receipts}
-        keyExtractor={(receipt) => receipt.id}
+        keyExtractor={(receipt) => receipt.id.toString()}
         refreshing={refreshing}
         onRefresh={getReceipts}
         renderItem={({item}) => (
