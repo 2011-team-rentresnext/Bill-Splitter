@@ -1,28 +1,23 @@
 import * as ImagePicker from 'expo-image-picker'
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Image, StyleSheet, Text, View} from 'react-native'
 import {connect} from 'react-redux'
-import {scanReceipt, clearReceipt} from '../store/receipt'
+import {scanReceipt} from '../../../store/receipt'
 
 function Scanner(props) {
-  const {navigation} = props
   const [image, setImage] = useState(null)
   const [status, setStatus] = useState(null)
   const [permissions, setPermissions] = useState(false)
   const [base64, setBase64] = useState('')
 
   useEffect(() => {
-    props.clearReceipt()
-    const unsubscribe = navigation.addListener('focus', () => {
-      props.clearReceipt()
-    })
-    return unsubscribe
-  }, [navigation])
+    askPermissionsAsync()
+  }, [])
 
   const askPermissionsAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraPermissionsAsync()
+    let {granted} = await ImagePicker.requestCameraPermissionsAsync()
 
-    if (permissionResult.granted === false) {
+    if (!granted) {
       alert('Permission to access camera roll is required!')
       return
     } else {
@@ -52,24 +47,16 @@ function Scanner(props) {
 
   return (
     <View style={styles.container}>
-      {permissions === false ? (
-        <Button onPress={askPermissionsAsync} title="Ask permissions" />
-      ) : (
-        <>
-          {image && <Image style={styles.image} source={{uri: image}} />}
-          {status && status.id && (
-            <Text style={styles.text}>{status.total}</Text>
-          )}
-          {status &&
-            status.id &&
-            status.items.map((item) => (
-              <Text style={styles.text} key={item.id}>
-                {item.name} {item.price}
-              </Text>
-            ))}
-          <Button onPress={takePictureAsync} title="Take a Picture" />
-        </>
-      )}
+      {image && <Image style={styles.image} source={{uri: image}} />}
+      {status && status.id && <Text style={styles.text}>{status.total}</Text>}
+      {status &&
+        status.id &&
+        status.items.map((item) => (
+          <Text style={styles.text}>
+            {item.name} {item.price}
+          </Text>
+        ))}
+      <Button onPress={takePictureAsync} title="Take a Picture" />
     </View>
   )
 }
