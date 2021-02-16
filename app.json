@@ -2,6 +2,7 @@
   "expo": {
     "name": "Sliced",
     "slug": "Sliced",
+    "description": "A bill splitting app that makes it easy for everyone to pay for their share.",
     "privacy": "unlisted",
     "version": "1.0.0",
     "orientation": "portrait",

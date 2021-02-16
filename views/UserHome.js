@@ -37,10 +37,10 @@ function UserHome(props) {
   const [notificationVisible, setNotificationVisible] = useState(
     !!props.user.hasOutstandingDebts
   )
+  const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    getReceipts()
     const checkNotifications = navigation.addListener('focus', () => {
       props.checkNotifications(user.id)
       getReceipts()
@@ -49,6 +49,7 @@ function UserHome(props) {
   }, [navigation])
 
   useEffect(() => {
+    getReceipts()
     if (
       props.route &&
       props.route.params &&
@@ -140,11 +141,15 @@ function UserHome(props) {
       {/* MAIN BODY */}
       <FlatList
         data={receipts}
-        keyExtractor={(receipt) => receipt.id}
+        keyExtractor={(receipt) => receipt.id.toString()}
+        refreshing={refreshing}
+        onRefresh={getReceipts}
         renderItem={({item}) => (
           <ListItem
             title={`Created: ${date(item.createdAt)}`}
-            subTitle={`by ${item.user.firstName}`}
+            subTitle={`by ${
+              item.user.id === user.id ? 'Me' : item.user.firstName
+            }`}
             onPress={() => handlePressReceipt(item.id)}
           />
         )}
