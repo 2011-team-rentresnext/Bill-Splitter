@@ -10,7 +10,6 @@ import {
   Home,
   UserHome,
   History,
-  Scanner,
   FriendsList,
   UsersList,
   ReceiptItems,
@@ -136,15 +135,6 @@ export default function App(props) {
                 headerBackTitle: 'Back',
               }}
               component={History}
-            />
-
-            <Stack.Screen
-              name="Scanner"
-              options={{
-                title: '',
-                headerBackTitle: 'Home',
-              }}
-              component={Scanner}
             />
 
             <Stack.Screen
