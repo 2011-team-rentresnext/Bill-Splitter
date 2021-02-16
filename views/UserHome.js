@@ -43,6 +43,7 @@ function UserHome(props) {
   useEffect(() => {
     const checkNotifications = navigation.addListener('focus', () => {
       props.checkNotifications(user.id)
+      getReceipts()
     })
     return checkNotifications
   }, [navigation])
@@ -162,7 +163,7 @@ function UserHome(props) {
           height: 100,
           justifyContent: 'space-around',
           paddingBottom: 5,
-          // backgroundColor: 'black',
+          backgroundColor: '#969696',
         }}
       >
         {/* SCAN BUTTON */}
