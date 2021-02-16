@@ -1,20 +1,29 @@
 # SLICED
 
-Sliced is a bill spitter -- a mobile application that scans restaurant receipts and turns each item into a charge that can be paid for by another person.
+Sliced is a bill splitter -- a mobile application that scans restaurant receipts and turns each item into a charge that can be paid for by another person.
 
 Created by Matt Ellison, Julie Lam, Ivan Lozano, and Ayuna Tsyrenova.
 
-## Examples
+## See inside
 
 ![Completed receipt with pending payments](/assets/readme/screenshot.jpg)
 
-![Walkthrough of scanning a receipt and assigning users](/assets/readme/demo.gif)
-
 ## How to demo
 
-On Android, simply scan the QR code on the [project webpage](https://expo.io/@rentresnext/projects/Sliced)
+### On Android
 
-On iOS, download the [Expo Go app](https://apps.apple.com/us/app/expo-go/id982107779) to [scan the QR code](https://expo.io/@rentresnext/projects/Sliced) and view the project inside Expo, or [request a link](https://expo.io/@rentresnext/projects/Sliced) to view the application on your mobile device
+Scan the QR code on the [project webpage](https://expo.io/@rentresnext/projects/Sliced)
+
+### On iOS
+
+Download the [Expo Go app](https://apps.apple.com/us/app/expo-go/id982107779) and log in with these credentials:
+
+```
+email: rentresnext@gmail.com
+password: C@pstone7!
+```
+
+Either select the application "Sliced" or [scan this QR code](https://expo.io/@rentresnext/projects/Sliced) to view the project inside Expo.
 
 ## How to install
 
